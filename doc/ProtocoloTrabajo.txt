@@ -1,0 +1,31 @@
+1.- En c9 tenemos la versión final del programa, que es la que será evaluada.
+
+2.- Los equipos trabajarán cada uno en local en un proyecto con la misma estructura que el proyecto en c9.
+
+3.- El encargado del bucle será el encargado de tener el programa entero funcionando, por tanto, para integrar las modificaciones de clases en el c9, DEBEMOS COORDINARLO CON EL RESPONSABLE DEL BUCLE. Tendrán que coordinarse también con el responsable de mapas y del menú (muy necesario).
+
+4.- El responsable del bucle ejecutará las PRUEBAS DE INTEGRACIÓN cada vez que se integra un módulo.
+
+5.- Cada equipo tendrá un responsable para hacer la integración de un módulo en c9. Cada vez que se integre un módulo, el equipo deberá pasar las PRUEBAS UNITARIAS del módulo sobre la versión que hay en c9.
+
+6.- Todos debemos tener en cuenta que un módulo no está terminado hasta que no pasa las pruebas unitarias.
+
+7.- Si se hace una modificación de un módulo y se quiere integrar, ANTES DEBE PASAR LAS PRUEBAS tanto unitarias como de integración en el c9.
+
+8.- La fecha de entrega es el martes antes de las 7 de la tarde? Hay que definir una fecha para cerrar la entrega de módulos. ¿Podría ser el domingo por la noche? ¿Lunes a mediodía? Hay que dar tiempo al responsable del bucle para que pruebe y a todos los módulos para que prueben sobre la versión en c9.
+
+9.- Convendría definir una nomenclatura para los métodos y propiedades. Por ejemplo para los métodos poner el infinitivo: mover(), girar(), ...
+
+    * Propiedades: camelcase
+        posX; posY; rotZ; ratioGiro;...
+    
+    * Métodos: camelcase
+        mover(); llenarCombustible();...
+        
+    * Clases: Mayúsculas (la primera y en cada palabra)
+        
+
+... Id proponiendo y modificando cosas, es importante que todos trabajemos igual.
+
+
++
