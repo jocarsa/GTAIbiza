@@ -1,3 +1,6 @@
+const tamanyoCanvas = 1000;
+const frameTime     = 16.66667;
+
 // Lienzos
 var lienzo1 = document.getElementById("lienzo1");
 var contexto1 = lienzo1.getContext("2d");
@@ -97,5 +100,38 @@ imagenpajaroP.src = "img/pajaroposando.png";
 var imagenpajaro2 = new Image();
 imagenpajaro2.src = "img/pajaroFor.png";
 //---------------------------------------+
+
+//---------------------------------------+ PECES
+
+// Se crean los peces
+var nPeces = 10;
+var peces = new Array();
+
+// Cambio de direccion aleatorio
+var cambioDireccion	= 3000;				// Tiempo que tarda en hacer un cambio de dirección del conjunto
+var tiempoDireccion = cambioDireccion;	// Timeout para hacer una cambio de dirección del conjunto
+var ratioDireccion	= 1;				//
+
+// Cambio de radio aleatorio
+var cambioRadio	= 8400;
+var tiempoRadio = cambioRadio;	
+var ratioRadio	= 60;
+
+// Cambio de sentido aleatorio
+var cambioSentido	= 35000;
+var tiempoSentido   = cambioSentido;
+var sentido         = true;
+
+// Cambio de centro aleatorio
+var cambioCentro = 11125;
+var tiempoCentro = cambioRadio;	
+var ratioCentro	 = 50;
+
+// Creo el cursor
+var cursor;	
+
+
+
+//---------------------------------------+ PAJAROS
 
 inicio();

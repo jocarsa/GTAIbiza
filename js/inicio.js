@@ -9,6 +9,7 @@ function inicio() {
 				//Oculta el botonEmpezarJuego 
 				$("#interfazUsuario").hide(); 
 				condicionesInicialesCocheProtegonista();
+				valoresInicialesPez();
 				//Ejecutamos bucle()
 				bucle();
 			}
@@ -35,6 +36,7 @@ function inicio() {
 				//Oculta el botonEmpezarJuego 
 				$("#gameOver").hide(); 
 				condicionesInicialesCocheProtegonista();
+				valoresInicialesPez();
 				//Ejecutamos bucle()
 				gameOver = false;
 				bucle();
@@ -66,7 +68,9 @@ function inicio() {
 		//---------------------------------------+
 		
 		//---------------------------------------+ PAJAROS
-		creacionPajaros();
+		creacionPajaros();		
+		//---------------------------------------+ PECES
+		eventosPez();
 		//---------------------------------------+
 	});
 }

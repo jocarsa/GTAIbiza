@@ -36,6 +36,10 @@ function bucle(){
 	movimientoPajaros();
 	//---------------------------------------+
 	
+	//---------------------------------------+ PECES
+	actualizarPez();
+	//---------------------------------------+ PECES
+	
 	
 	if (gameOver == true)  {
 		$("#gameOver").show(); 

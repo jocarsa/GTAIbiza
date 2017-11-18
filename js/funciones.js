@@ -415,3 +415,9 @@ function dibujarBarraCombustible() {
 	// La posición de la barra es relativa a la del cocheProtagonista
 	contextoFinal.fillRect(cocheProtagonista.posX - 15, cocheProtagonista.posY - 20, anchuraRellenada, cocheProtagonista.barraCombustible.altura);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////																						/////
+////				Funciones de los peces. Están en funcionespez.js						/////
+////																						/////
+/////////////////////////////////////////////////////////////////////////////////////////////////
