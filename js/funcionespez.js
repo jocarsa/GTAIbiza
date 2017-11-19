@@ -51,6 +51,7 @@ function actualizarPez() {
 		peces[i].mueveObjetivo();				
 		peces[i].ondula();
 		peces[i].mover();
+		peces[i].reducirVelocidad();
 		peces[i].persigueObjetivo();
 		
 		//peces[i].cambiaDireccion();

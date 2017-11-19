@@ -62,7 +62,7 @@ function Pez(){
 	this.objetivo.posX = 0;											// Coordenada x del objetivo
 	this.objetivo.posY = 0;											// Coordenada y del objetivo
 	this.objetivo.centroRadio = 20 + (Math.random() * 100);			// Distancia al centro del objetivo
-	this.objetivo.velocidadAngular = 45/this.objetivo.centroRadio;	// Velocidad angular rad/s
+	this.objetivo.velocidadAngular = 65/this.objetivo.centroRadio;	// Velocidad angular rad/s
 	this.objetivo.angulo		 = Math.random() * 2 * Math.PI;		// Angulo inicial del giro del objetivo	
 	this.objetivo.centro.posX = lienzoFinal.width/2;
 	this.objetivo.centro.posY = lienzoFinal.height/2;
@@ -270,17 +270,21 @@ function Pez(){
 		this.rotZ = anguloEntrePuntos(this.posX,this.posY,x,y);
 	}
 	
-	// Movimiento general actualizando posX posY en función de la velocidad y rotZ
-	// Además reduce la velocidad poco a poco si es superada por alguna causa
-	this.mover = function(){
-
 		// Reajusta la velocidad poco a poco si se ha variado con respecto a la velocidad inicial
 		// por alguna razón. El pez siempre tiende a nadar a su velocidad inicial
+	this.reducirVelocidad = function(){
+	
 		if (this.velocidad > this.velocidadInicial){
 			this.velocidad -= 0.01;
 		} else if (this.velocidad < this.velocidadInicial){
-			this.velocidad += 0.01;
+			this.velocidad = this.velocidadInicial;
 		}
+	}
+	
+	// Movimiento general actualizando posX posY en función de la velocidad y rotZ
+	this.mover = function(){
+
+		
 		// Calcula la posición 
 		this.posX += Math.cos(this.rotZ) * this.velocidad;	// Actualizo posición x del pez
 		this.posY += Math.sin(this.rotZ) * this.velocidad;	// Actualizo posición y del pez
