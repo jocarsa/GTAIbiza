@@ -270,8 +270,8 @@ function Pez(){
 		this.rotZ = anguloEntrePuntos(this.posX,this.posY,x,y);
 	}
 	
-		// Reajusta la velocidad poco a poco si se ha variado con respecto a la velocidad inicial
-		// por alguna razón. El pez siempre tiende a nadar a su velocidad inicial
+	// Reajusta la velocidad poco a poco si se ha variado con respecto a la velocidad inicial
+	// por alguna razón. El pez siempre tiende a nadar a su velocidad inicial
 	this.reducirVelocidad = function(){
 	
 		if (this.velocidad > this.velocidadInicial){
@@ -317,18 +317,6 @@ function Pez(){
 		this.posXOndula = this.posX + desfaseX;	
 		this.posYOndula = this.posY + desfaseY;	
 		
-		// Actualizar el array de articulaciones
-		// Se elimina la última posición que ya no debe dibujarse
-		/*
-		if (this.velocidad < this.velocidadInicial) {
-			
-			if (Math.round((this.velocidadInicial/this.velocidad) * this.nArticulaciones) > this.nArticulaciones){
-				this.nArticulaciones++;
-				console.log(this.nArticulaciones);
-			} else{
-				this.articulaciones.pop();
-			}
-		}*/
 		this.articulaciones.pop();
 		// Se crea una nueva posición con las nuevas coordenadas calculadas
 		this.articulaciones.unshift(new Articulacion);
