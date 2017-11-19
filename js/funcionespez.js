@@ -23,7 +23,9 @@ function eventosPez(){
 	
 	$("canvas").click(function(event){
 		// Al hacer click 		
-		for (var i = 0; i < nPeces; i++){peces[i].velocidad += 0.2;}
+		for (var i = 0; i < nPeces; i++){peces[i].velocidad +=0.1;}
+		//for (var i = 0; i < nPeces; i++){peces[i].huye(event.pageX - 272, event.pageY - 50);}
+		
 	})
 	
 	$("canvas").dblclick(function(event){
@@ -46,22 +48,22 @@ function actualizarPez() {
 		//peces[i].dibujaVelocidad("red");
 		
 		// Mover
-		//peces[i].mueveObjetivo();				
+		peces[i].mueveObjetivo();				
 		peces[i].ondula();
 		peces[i].mover();
-		//peces[i].persigueObjetivo();
+		peces[i].persigueObjetivo();
 		
 		//peces[i].cambiaDireccion();
-		//peces[i].cambiaRadio();
+		peces[i].cambiaRadio();
 		//peces[i].cambiaSentido();
 
 		peces[i].colisionparedes();
 	}
 	//cambiaDireccion(); 
 	
-	//cambiaRadio();
-	//cambiaSentido();
-	//cambiaCentro();
+	cambiaRadio();
+	cambiaSentido();
+	cambiaCentro();
 	
 }
 
@@ -159,8 +161,8 @@ function cambiaRadio(){
 		console.log("Cambio de radio en " + (tiempoRadio/1000) + " s");		
 		for (i = 0; i < nPeces ; i++) {
 			peces[i].objetivo.centroRadio += ratioRadio * (Math.random() - 0.5);
-			if (Math.abs(peces[i].objetivo.centroRadio) < 10){
-				peces[i].objetivo.centroRadio = 10
+			if (Math.abs(peces[i].objetivo.centroRadio) < 15){
+				peces[i].objetivo.centroRadio = 15
 			} 
 			if (peces[i].objetivo.centroRadio > (lienzoFinal.width/2)) {
 				peces[i].objetivo.centroRadio = (lienzoFinal.width/2) - 50

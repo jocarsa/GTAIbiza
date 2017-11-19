@@ -1,4 +1,4 @@
-const frameTime     = 16.66667;
+const frameTime     = 33;
 
 // Lienzos
 var lienzo1 = document.getElementById("lienzo1");
@@ -103,7 +103,7 @@ imagenpajaro2.src = "img/pajaroFor.png";
 //---------------------------------------+ PECES
 
 // Se crean los peces
-var nPeces = 30;
+var nPeces = 300;
 var peces = new Array();
 
 // Cambio de direccion aleatorio
@@ -114,7 +114,7 @@ var ratioDireccion	= 1;				//
 // Cambio de radio aleatorio
 var cambioRadio	= 8400;
 var tiempoRadio = cambioRadio;	
-var ratioRadio	= 60;
+var ratioRadio	= 40;
 
 // Cambio de sentido aleatorio
 var cambioSentido	= 35000;

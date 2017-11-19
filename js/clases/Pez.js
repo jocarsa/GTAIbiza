@@ -29,17 +29,17 @@ function Pez(){
 	// Clase Pez	
 	this.posXOndula = this.posX;	// es la desviación que hay que aplicarle a la posX para conseguir el movimiento ondulatorio
 	this.posYOndula = this.posY;	// es la desviación que hay que aplicarle a la posY para conseguir el movimiento ondulatorio
-	this.velocidadInicial	= 0.7;	//
+	this.velocidadInicial	= 1.1;	//
 	this.bordeColision		= 10; 
 	
 	// Cambio de direccion aleatorio
 	// !no hace na!
-	this.cambioDireccion	= 1000;
+	this.cambioDireccion	= 2000 + (2000 * Math.random());
 	this.tiempoDireccion    = this.cambioDireccion;
 	this.ratioDireccion		= 1;
 
 	// Cambio de radio aleatorio
-	this.cambioRadio	= 1000 * Math.random();
+	this.cambioRadio	= 2000 + (2000 * Math.random());
 	this.tiempoRadio    = this.cambioRadio;	
 	this.ratioRadio		= 30;
 	
@@ -51,10 +51,10 @@ function Pez(){
 	// Cambio de centro aleatoriamente
 	this.cambioCentro	= 1000 * Math.random();
 	this.tiempoCentro   = this.cambioRadio;	
-	this.ratioCentro	= 30;
+	this.ratioCentro	= 0;
 	
 	// Parámetros para huir y perseguir
-	this.temeridad          = 50;
+	this.temeridad          = 100;
 	this.avistamiento       = 500;
 
 	// Objetivo especial a sequir, que gira dando vueltas a un centro	
@@ -68,13 +68,13 @@ function Pez(){
 	this.objetivo.centro.posY = lienzoFinal.height/2;
 	
 	//  Movimiento ondulatorio 
-	this.amplitud       = 1.2;									// Ampliud de onda
-	this.periodo        = 0.5;									// Periodo de la onda
+	this.amplitud       = 0.8;									// Ampliud de onda
+	this.periodo        = 0.7;									// Periodo de la onda
 	this.periodo 		= this.periodo/this.velocidadInicial;	// El periodo depende de la velocidad, para acelerar el movimiento ondulatorio
 	this.fase    		=  2 * Math.PI * Math.random(); 		// Angulo inicial de la onda. 0 empieza en el centro
 
 	// Cuerpo articulado
-	this.nArticulaciones			= 20;	// Número de puntos que se guardan en un array para dibujar el movimiento ondulatorio
+	this.nArticulaciones			= 10;	// Número de puntos que se guardan en un array para dibujar el movimiento ondulatorio
 	this.nArticulacionesVisibles	= 10;	// Numero de puntos a dibujar en el movimiento aleatorio debe ser menro o igual que nArticulaciones
 	this.articulaciones	= new Array();		// Array de articulaciones. Cada articulación es una posición, por lo que será un array de actores
 	this.dimensionesPez = new Array();		// Se pueden definir 6 tramos del pez con % y anchura. Es una matriz multidimensional
@@ -112,23 +112,23 @@ function Pez(){
 		this.dimensionesPez[0] = new Array();
 		// Morro
 		this.dimensionesPez[0][0] = 0.05;	// % del primer tramo del pez
-		this.dimensionesPez[0][1] =   1.3;	// Anchura del primer tramo del pez
+		this.dimensionesPez[0][1] =   0.7;	// Anchura del primer tramo del pez
 		// Cabeza
 		this.dimensionesPez[1] = new Array();
 		this.dimensionesPez[1][0] = 0.1; 	// % del segundo tramo del pez
-		this.dimensionesPez[1][1] =   2.5;	// Anchura del segundo tramo del pez
+		this.dimensionesPez[1][1] =   1.6;	// Anchura del segundo tramo del pez
 		// Cuerpo alto
 		this.dimensionesPez[2] = new Array();
 		this.dimensionesPez[2][0] = 0.2; 	// % del tercer tramo del pez
-		this.dimensionesPez[2][1] =   2.9;	// Anchura del tercer tramo del pez
+		this.dimensionesPez[2][1] =   2.0;	// Anchura del tercer tramo del pez
 		// Cuerpo bajo
 		this.dimensionesPez[3] = new Array();
 		this.dimensionesPez[3][0] = 0.3;	// % del cuarto tramo del pez
-		this.dimensionesPez[3][1] =   2.1;	// Anchura del cuerto tramo del pez
+		this.dimensionesPez[3][1] =   1.4;	// Anchura del cuerto tramo del pez
 		// Cola alta
 		this.dimensionesPez[4] = new Array();
 		this.dimensionesPez[4][0] = 0.3;	// % del quinto tramo del pez
-		this.dimensionesPez[4][1] =   1.4;	// Anchura del quinto tramo del pez
+		this.dimensionesPez[4][1] =   1.0;	// Anchura del quinto tramo del pez
 		// Cola baja
 		this.dimensionesPez[5] = new Array();
 		this.dimensionesPez[5][0] = 0.05;	// % del quinto tramo del pez
@@ -149,11 +149,9 @@ function Pez(){
 		var ratioVelocidad;
 		
 		// La condición de salida es haber alcanzado el % de articulaciones según el tramo
-		// Cuando la velocidad es menor que la inicial se pdibujan todos los puntos. En caso contrario se dibujan menos	para evitar que se estire
-		// Los bucles comienzan donde se quedó el anterior
-		
+		// Cuando la velocidad es menor que la inicial se dibujan todos los puntos. En caso contrario se dibujan menos	para evitar que se estire
+		// Los bucles comienzan donde se quedó el anterior		
 		ratioVelocidad = (this.velocidadInicial/this.velocidad);			
-		
 		// Dibuja el morro 
 		condicionSalida = (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[0][0]; 
 		for (i=0; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
@@ -283,7 +281,6 @@ function Pez(){
 		} else if (this.velocidad < this.velocidadInicial){
 			this.velocidad += 0.01;
 		}
-
 		// Calcula la posición 
 		this.posX += Math.cos(this.rotZ) * this.velocidad;	// Actualizo posición x del pez
 		this.posY += Math.sin(this.rotZ) * this.velocidad;	// Actualizo posición y del pez
@@ -317,8 +314,18 @@ function Pez(){
 		this.posYOndula = this.posY + desfaseY;	
 		
 		// Actualizar el array de articulaciones
-		// Se elimina la última posición
-		this.articulaciones.pop();		
+		// Se elimina la última posición que ya no debe dibujarse
+		/*
+		if (this.velocidad < this.velocidadInicial) {
+			
+			if (Math.round((this.velocidadInicial/this.velocidad) * this.nArticulaciones) > this.nArticulaciones){
+				this.nArticulaciones++;
+				console.log(this.nArticulaciones);
+			} else{
+				this.articulaciones.pop();
+			}
+		}*/
+		this.articulaciones.pop();
 		// Se crea una nueva posición con las nuevas coordenadas calculadas
 		this.articulaciones.unshift(new Articulacion);
 		this.articulaciones[0].posX = this.posXOndula;
@@ -344,7 +351,7 @@ function Pez(){
 			this.tiempoRadio = this.cambioRadio;
 			// Varia ligeramente el radio de forma aleatoria
 			this.objetivo.centroRadio += this.ratioRadio * (Math.random() - 0.5);
-			if (Math.abs(this.objetivo.centroRadio) < (this.ratioRadio/2)){this.objetivo.centroRadio = (this.ratioRadio/2)};
+			if (Math.abs(this.objetivo.centroRadio) < 15){this.objetivo.centroRadio = 15};
 		}
 	}
 
