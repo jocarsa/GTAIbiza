@@ -48,19 +48,12 @@ function Objetivo(){
 	/**
 	 * @method constructorAleatoriamente Constructor Objetivo Aleatorio
 	 */
-	this.constructorAleatoriamente = function() {
+	this.constructorAleatorio = function() {
 		// Heredadas
 		this.posX	= Math.random() * lienzoFinal.width;
 		this.posY	= Math.random() * lienzoFinal.height;
 		this.rotZ	= 0;
 		this.velocidad = 1;
-		// Propias
-		this.centroRadio = 1;
-		this.velocidadAngular	= 2 * Math.PI;
-		this.angulo	= 0;
-		this.centro = new Actor();
-		this.centro.posX = 0;
-		this.centro.posY = 0;
 	}
 
 	/**
@@ -69,7 +62,6 @@ function Objetivo(){
 	this.moverAleatoriamente = function() {
 		this.posX += Math.cos(this.rotZ) * this.velocidad;
 		this.posY += Math.sin(this.rotZ) * this.velocidad;
-		this.colisionBordes();
 	}
 
 	/**
@@ -77,13 +69,11 @@ function Objetivo(){
 	 * @param {Object} objetivo objetivo del pez
 	 */
 	this.cambiarDireccionObjetivo = function() {
-		var deltaDir; // Variación de la dirección
 		tiempoDireccion -= frameTime;
 
 		if (tiempoDireccion < 0) {
 			tiempoDireccion = cambioDireccion + (cambioDireccion * (Math.random() -0.5));
-			deltaDir = (Math.random() - 0.5) * ratioDireccion;
-			this.rotZ += Math.PI * 2 * deltaDir;
+			this.rotZ = (Math.random() - 0.5) * 0.5;
 		}
 	}
 
@@ -92,23 +82,19 @@ function Objetivo(){
 	 */
 	this.colisionBordes = function() {
 		if (this.posX > lienzoFinal.width) { // Derecha
-			this.posX = lienzoFinal.width; 
+			this.posX = lienzoFinal.width - 100; 
 			this.rotZ += Math.PI
 		} else if (this.posX < lienzoFinal.width) { // Izquierda
-			this.posX = lienzoFinal.width; 
+			this.posX = lienzoFinal.width + 100; 
 			this.rotZ += Math.PI;
 		}
 		if (this.posY > lienzoFinal.height) { // Abajo
-			this.posY = lienzoFinal.height;
+			this.posY = lienzoFinal.height - 100;
 			this.rotZ += Math.PI;
 		} else if(this.posY < lienzoFinal.height) { // Arriba
-			this.posY = lienzoFinal.height;
+			this.posY = lienzoFinal.height + 100;
 			this.rotZ += Math.PI;
 		}
-	}
-	
-	this.dibuja = function(aColor){
-		dibujaRectangulo(this.posX, this.posY, 5, 5 ,aColor,"F");
 	}
 	
 	this.dibuja = function(aColor){
