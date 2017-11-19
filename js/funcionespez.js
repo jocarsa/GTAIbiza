@@ -17,21 +17,18 @@ function eventosPez(){
 
 	// Código JQuery
 	$("canvas").mousemove(function(event){
-		// Al hacer doble click expulso a los peces				
-		//for (var i = 0; i < nPeces; i++){
-			//peces[i].huye(event.pageX,event.pageY);		
-			//peces[i].persigue(event.pageX,event.pageY);
-		//}
+		// Al pasar el ratón
+		//for (var i = 0; i < nPeces; i++){peces[i].persigue(event.pageX - 272, event.pageY - 50);}			
 	})
-
+	
 	$("canvas").click(function(event){
 		// Al hacer click 		
-		//for (var i = 0; i < nPeces; i++){}
+		for (var i = 0; i < nPeces; i++){peces[i].velocidad += 0.2;}
 	})
-
+	
 	$("canvas").dblclick(function(event){
-		// Al hacer click 
-		//for (var i = 0; i < nPeces; i++){}		
+		// Al hacer doble click 
+		//for (var i = 0; i < nPeces; i++){peces[i].persigue(event.pageX - 272, event.pageY - 50);}	
 	})
 	
 }
@@ -39,55 +36,34 @@ function eventosPez(){
 function actualizarPez() {
 	// Dibujo 
 	for (var i = 0; i < nPeces; i++) {
-		// Dibujar
-		//peces[i].dibujaPez("blue");
-		
+		// Dibujar		
+		peces[i].dibujaPez();		
 		//peces[i].dibujaCabeza();
 		//peces[i].dibujaCuerpo();
 		//peces[i].dibujaArticulaciones();
+		//peces[i].dibujaObjetivo("red");		
 		//peces[i].dibujaPosicion();
-		peces[i].dibujaObjetivo("red");
-		//peces[i].dibujaPez("white");
-		peces[i].dibujaPez10Articulaciones();		
 		//peces[i].dibujaVelocidad("red");
 		
 		// Mover
-		peces[i].mueveObjetivo();
+		//peces[i].mueveObjetivo();				
 		peces[i].ondula();
 		peces[i].mover();
-		peces[i].persigueObjetivo();
-		peces[i].cambiaDireccion();
+		//peces[i].persigueObjetivo();
+		
+		//peces[i].cambiaDireccion();
 		//peces[i].cambiaRadio();
 		//peces[i].cambiaSentido();
 
-		//peces[i].colisionparedes();
+		peces[i].colisionparedes();
 	}
 	//cambiaDireccion(); 
 	
-	cambiaRadio();
-	cambiaSentido();
+	//cambiaRadio();
+	//cambiaSentido();
 	//cambiaCentro();
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /****************************************************************************************************************************/
 /* Funciones de cálculo																									*/
@@ -186,8 +162,8 @@ function cambiaRadio(){
 			if (Math.abs(peces[i].objetivo.centroRadio) < 10){
 				peces[i].objetivo.centroRadio = 10
 			} 
-			if (peces[i].objetivo.centroRadio > (tamanyoCanvas/2)) {
-				peces[i].objetivo.centroRadio = (tamanyoCanvas/2) - 50
+			if (peces[i].objetivo.centroRadio > (lienzoFinal.width/2)) {
+				peces[i].objetivo.centroRadio = (lienzoFinal.width/2) - 50
 			}
 		}
 		

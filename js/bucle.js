@@ -2,7 +2,7 @@ function bucle(){
 	contextoFinal.clearRect(0, 0, lienzoFinal.width, lienzoFinal.height);
 	
 	//---------------------------------------+ MAPAS
-	dibujaMapaFinal();
+	dibujaMapaFinal();	
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ PERROS
@@ -40,11 +40,10 @@ function bucle(){
 	actualizarPez();
 	//---------------------------------------+ PECES
 	
-	
 	if (gameOver == true)  {
 		$("#gameOver").show(); 
 	} else {
 		clearTimeout(temporizador);
-		if(!gameOver){temporizador = setTimeout("bucle()", 33);}
+		if(!gameOver){temporizador = setTimeout("bucle()", frameTime);}
 	}
 }

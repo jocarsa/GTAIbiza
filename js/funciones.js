@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function dibujaMapaBonito() {
 	mapaBonito.onload = function() {
-		contexto1.drawImage(mapaBonito, 0, 0);
+		//contexto1.drawImage(mapaBonito, 0, 0);
 		puedesIniciar++;
 	}
 }

@@ -1,4 +1,3 @@
-const tamanyoCanvas = 1000;
 const frameTime     = 16.66667;
 
 // Lienzos
@@ -104,7 +103,7 @@ imagenpajaro2.src = "img/pajaroFor.png";
 //---------------------------------------+ PECES
 
 // Se crean los peces
-var nPeces = 10;
+var nPeces = 30;
 var peces = new Array();
 
 // Cambio de direccion aleatorio

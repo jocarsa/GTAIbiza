@@ -21,21 +21,21 @@ function Pez(){
 	/***************/
 	
 	// Heredadas
-	this.posX		= 0;//this.bordeColision + (Math.random() * tamanyoCanvas);
-	this.posY		= 0;//this.bordeColision + (Math.random() * tamanyoCanvas);
-	this.rotZ		= 0;//2 * Math.PI * (1/4)* Math.random();//2 * Math.PI * (1/8);//2 * Math.PI * (1/8); 
-	this.velocidad	= 1;
+	this.posX		= 0;
+	this.posY		= 0;
+	this.rotZ		= 0;
+	this.velocidad	= 0;
 
 	// Clase Pez	
 	this.posXOndula = this.posX;	// es la desviación que hay que aplicarle a la posX para conseguir el movimiento ondulatorio
 	this.posYOndula = this.posY;	// es la desviación que hay que aplicarle a la posY para conseguir el movimiento ondulatorio
-	this.velocidadInicial	= 1;	//
+	this.velocidadInicial	= 0.7;	//
 	this.bordeColision		= 10; 
 	
 	// Cambio de direccion aleatorio
 	// !no hace na!
 	this.cambioDireccion	= 1000;
-	this.tiempoDireccion    = this.cambioDireccion;	
+	this.tiempoDireccion    = this.cambioDireccion;
 	this.ratioDireccion		= 1;
 
 	// Cambio de radio aleatorio
@@ -54,7 +54,7 @@ function Pez(){
 	this.ratioCentro	= 30;
 	
 	// Parámetros para huir y perseguir
-	this.temeridad          = 25;
+	this.temeridad          = 50;
 	this.avistamiento       = 500;
 
 	// Objetivo especial a sequir, que gira dando vueltas a un centro	
@@ -64,18 +64,20 @@ function Pez(){
 	this.objetivo.centroRadio = 20 + (Math.random() * 100);			// Distancia al centro del objetivo
 	this.objetivo.velocidadAngular = 45/this.objetivo.centroRadio;	// Velocidad angular rad/s
 	this.objetivo.angulo		 = Math.random() * 2 * Math.PI;		// Angulo inicial del giro del objetivo	
-	this.objetivo.centro.posX = tamanyoCanvas/2 + 0;
-	this.objetivo.centro.posY = tamanyoCanvas/2 + 0;
+	this.objetivo.centro.posX = lienzoFinal.width/2;
+	this.objetivo.centro.posY = lienzoFinal.height/2;
 	
 	//  Movimiento ondulatorio 
-	this.amplitud = 1.1;							// Ampliud de onda
-	this.periodo  = 0.4; 							// Periodo: número de segundos que tarda en repetirse
-	this.fase     = 2 * Math.PI * Math.random(); 	// Angulo inicial de la onda. 0 empieza en el centro
+	this.amplitud       = 1.2;									// Ampliud de onda
+	this.periodo        = 0.5;									// Periodo de la onda
+	this.periodo 		= this.periodo/this.velocidadInicial;	// El periodo depende de la velocidad, para acelerar el movimiento ondulatorio
+	this.fase    		=  2 * Math.PI * Math.random(); 		// Angulo inicial de la onda. 0 empieza en el centro
 
 	// Cuerpo articulado
-	this.nArticulaciones			= 10;	// Número de puntos que se guardan en un array para dibujar el movimiento ondulatorio
+	this.nArticulaciones			= 20;	// Número de puntos que se guardan en un array para dibujar el movimiento ondulatorio
 	this.nArticulacionesVisibles	= 10;	// Numero de puntos a dibujar en el movimiento aleatorio debe ser menro o igual que nArticulaciones
 	this.articulaciones	= new Array();		// Array de articulaciones. Cada articulación es una posición, por lo que será un array de actores
+	this.dimensionesPez = new Array();		// Se pueden definir 6 tramos del pez con % y anchura. Es una matriz multidimensional
 	
 	this.color;	// Color del pez
 	
@@ -89,131 +91,108 @@ function Pez(){
 
 	this.constructor = function(){
 		// Para ser llamado justo despues de crear la instancia y poner valor a sus propiedades
-		//this.posX = 1 + this.bordeColision + (Math.random() * (tamanyoCanvas - (2 * this.bordeColision) - 2));
-		//this.posY = 1 + this.bordeColision + (Math.random() * (tamanyoCanvas - (2 * this.bordeColision) - 2));
-		this.posX = 100 + Math.random() * 100;
-		this.posY = 100 + Math.random() * 100;
-		this.rotZ = 2 * Math.PI * (1/4)* Math.random();
+		this.posX = lienzoFinal.width * Math.random();
+		this.posY = lienzoFinal.height * Math.random();
+		this.rotZ = 2 * Math.PI * Math.random();		
 		this.velocidad	= this.velocidadInicial;
 		this.tiempoDireccion = this.cambioDireccion;
 		this.posXOndula = this.posX;
 		this.posYOndula = this.posY;	
+		
 
-
+		// Crea las articulaciones
 		for (var i = 0; i< this.nArticulaciones ; i++){
 			this.articulaciones[i] = new Articulacion();
 			this.articulaciones[i].posX = this.posX;
 			this.articulaciones[i].posY = this.posY;
 		}
 		
+		// Se divide el pez en 6 partes, es una matriz multidimensional que tiene el % de longitud del pez a pintar y la anchura
+		// Los % deben sumar 1
+		this.dimensionesPez[0] = new Array();
+		// Morro
+		this.dimensionesPez[0][0] = 0.05;	// % del primer tramo del pez
+		this.dimensionesPez[0][1] =   1.3;	// Anchura del primer tramo del pez
+		// Cabeza
+		this.dimensionesPez[1] = new Array();
+		this.dimensionesPez[1][0] = 0.1; 	// % del segundo tramo del pez
+		this.dimensionesPez[1][1] =   2.5;	// Anchura del segundo tramo del pez
+		// Cuerpo alto
+		this.dimensionesPez[2] = new Array();
+		this.dimensionesPez[2][0] = 0.2; 	// % del tercer tramo del pez
+		this.dimensionesPez[2][1] =   2.9;	// Anchura del tercer tramo del pez
+		// Cuerpo bajo
+		this.dimensionesPez[3] = new Array();
+		this.dimensionesPez[3][0] = 0.3;	// % del cuarto tramo del pez
+		this.dimensionesPez[3][1] =   2.1;	// Anchura del cuerto tramo del pez
+		// Cola alta
+		this.dimensionesPez[4] = new Array();
+		this.dimensionesPez[4][0] = 0.3;	// % del quinto tramo del pez
+		this.dimensionesPez[4][1] =   1.4;	// Anchura del quinto tramo del pez
+		// Cola baja
+		this.dimensionesPez[5] = new Array();
+		this.dimensionesPez[5][0] = 0.05;	// % del quinto tramo del pez
+		this.dimensionesPez[5][1] =   0.5;	// Anchura del quinto tramo del pez
+		
+		
 	}
 	/************************************************/
 	/* Métodos para el dibujado						*/
 	/************************************************/
-	// Dibuja pez
-	this.dibujaPez6Articulaciones = function(){
-		// Dibuja la cabeza		
-		dibujaRectangulo(this.articulaciones[0].posX,
-					this.articulaciones[0].posY,
-					1,1,"cyan","F");
-		dibujaRectangulo(this.articulaciones[1].posX,
-					this.articulaciones[1].posY,
-					1.3,1.3,"cyan","F");
-		dibujaRectangulo(this.articulaciones[2].posX,
-					this.articulaciones[2].posY,
-					1.5,1,5,"red","F");
-		dibujaRectangulo(this.articulaciones[3].posX,
-					this.articulaciones[3].posY,
-					1.2,1.2,"red","F");
-		dibujaRectangulo(this.articulaciones[4].posX,
-					this.articulaciones[4].posY,
-					0.8,0.8,"red","F");
-		dibujaRectangulo(this.articulaciones[5].posX,
-					this.articulaciones[5].posY,
-					1,1,"white","F");
-	}
 
-	// Dibuja un pez con 10 articulaciones
-	this.dibujaPez10Articulaciones = function(){
-	
-		// Dibuja la cabeza		
-		dibujaRectangulo(this.articulaciones[0].posX,
-					this.articulaciones[0].posY,
-					0.5,0.5,this.color,"F");
-		dibujaRectangulo(this.articulaciones[1].posX,
-					this.articulaciones[1].posY,
-					1,1,this.color,"F");
-		dibujaRectangulo(this.articulaciones[2].posX,
-					this.articulaciones[2].posY,
-					1.5,1.5,this.color,"F");
-		dibujaRectangulo(this.articulaciones[3].posX,
-					this.articulaciones[3].posY,
-					1.6,1.6,this.color,"F");
-		dibujaRectangulo(this.articulaciones[4].posX,
-					this.articulaciones[4].posY,
-					1.5,1.5,this.color,"F");
-		dibujaRectangulo(this.articulaciones[5].posX,
-					this.articulaciones[5].posY,
-					1.3,1.3,this.color,"F");
-		dibujaRectangulo(this.articulaciones[6].posX,
-					this.articulaciones[6].posY,
-					1.2,1.2,this.color,"F");
-		dibujaRectangulo(this.articulaciones[7].posX,
-					this.articulaciones[7].posY,
-					1.1,1.1,this.color,"F");
-		dibujaRectangulo(this.articulaciones[8].posX,
-					this.articulaciones[8].posY,
-					1,1,this.color,"F");
-		dibujaRectangulo(this.articulaciones[9].posX,
-					this.articulaciones[9].posY,
-					1.3,1.3,this.color,"F");
-	}
-	
-	// Dibuja la cabeza
-	this.dibujaCabeza = function(){		
-	
-		dibujaRectangulo(this.posXOndula, this.posYOndula, 2, 2, this.color, "F");		
-	}
-	
-	// Dibuja el cuerpo en movimiento ondulatorio (líneas)
-	this.dibujaCuerpo = function(){
+	// Dibuja pez. Se divide el pez en 6 partes con longitudes definidas:
+	// Definiremos la anchura de cada parte del cuerpo en pixels
+	this.dibujaPez = function(){
 		// Variables locales
-		var ultimoIndice	= 0; 	// Se guarda el último indice para dibujar una línea entre el y el nuevo
-		var hueco			= 0;	// Para saltar el pintado de las articulaciones si no todas están visibles
-		//
-		for (var i=0; i < this.nArticulaciones - 1; i++) {
-			if (hueco <= 0){
-				contexto.strokeStyle = this.color;
-				dibujaLinea(this.articulaciones[i].posX,
-							this.articulaciones[i].posY,
-							this.articulaciones[ultimoIndice].posX,
-							this.articulaciones[ultimoIndice].posY,
-							"blue");
-				ultimoIndice = i;
-				hueco = this.nArticulaciones/this.nArticulacionesVisibles;
-			}
-			hueco--;			
-		}
-	}
-	
-	// Dibuja las articulaciones en movimiento ondulatorio
-	this.dibujaArticulaciones = function(){		
-		// Variables locales
-		var ultimoIndice	= 0;
-		var hueco			= 0;		
+		var i;
+		var condicionSalida;		
+		var ratioVelocidad;
 		
-		for (var i=0; i < this.nArticulaciones - 1; i++) {
-			if (hueco <= 0){
-				dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, 1, 1, this.color, "F");
-				ultimoIndice = i;
-				hueco = this.nArticulaciones/this.nArticulacionesVisibles;
-			}
-			hueco--;			
+		// La condición de salida es haber alcanzado el % de articulaciones según el tramo
+		// Cuando la velocidad es menor que la inicial se pdibujan todos los puntos. En caso contrario se dibujan menos	para evitar que se estire
+		// Los bucles comienzan donde se quedó el anterior
+		
+		ratioVelocidad = (this.velocidadInicial/this.velocidad);			
+		
+		// Dibuja el morro 
+		condicionSalida = (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[0][0]; 
+		for (i=0; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
+			dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, this.dimensionesPez[0][1], this.dimensionesPez[0][1], this.color, "F");
 		}
+		
+		// Dibuja la cabeza
+		condicionSalida += (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[1][0];
+		for (i = i - 1; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
+			dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, this.dimensionesPez[1][1], this.dimensionesPez[1][1], this.color, "F");
+		}
+
+		// Dibuja el cuerpo alto 
+		condicionSalida += (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[2][0];
+		for (i = i - 1; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
+			dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, this.dimensionesPez[2][1], this.dimensionesPez[2][1], this.color, "F");
+		}
+
+		// Dibuja el cuerpo bajo 
+		condicionSalida += (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[3][0];
+		for (i = i - 1; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
+			dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, this.dimensionesPez[3][1], this.dimensionesPez[3][1], this.color, "F");
+		}
+
+		// Dibuja la cola alta
+		condicionSalida += (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[4][0];
+		for (i = i - 1; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
+			dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, this.dimensionesPez[4][1], this.dimensionesPez[4][1], this.color, "F");
+		}
+
+		// Dibuja la cola baja
+		condicionSalida += (this.nArticulaciones * ratioVelocidad) * this.dimensionesPez[5][0];
+		for (i = i - 1; ((i < condicionSalida)&&(i < this.nArticulaciones)); i++) {
+			dibujaRectangulo(this.articulaciones[i].posX, this.articulaciones[i].posY, this.dimensionesPez[5][1], this.dimensionesPez[5][1], this.color, "F");
+		}
+
 	}
-
-
-	// Dibuja la posición de la posición del actor
+	
+	// Dibuja la posición del actor
 	this.dibujaPosicion = function(aColor){
 		dibujaRectangulo(this.posX, this.posY, 4, 4, aColor, "F");
 	}
@@ -239,10 +218,10 @@ function Pez(){
 	
 	// Rebota en los límites del canvas con un borde
 	this.colisionparedes = function(){
-		if(this.posX > tamanyoCanvas - this.bordeColision)	{this.posX = tamanyoCanvas - this.bordeColision	; this.rotZ = - (this.rotZ + Math.PI);}
-		if(this.posX < this.bordeColision)                	{this.posX = this.bordeColision                	; this.rotZ = - (this.rotZ + Math.PI);}
-		if(this.posY > tamanyoCanvas - this.bordeColision)	{this.posY = tamanyoCanvas - this.bordeColision	; this.rotZ = - (this.rotZ);}
-		if(this.posY < this.bordeColision)					{this.posY = this.bordeColision    				; this.rotZ = - (this.rotZ);}
+		if(this.posX > lienzoFinal.width)	{this.posX = lienzoFinal.width	; this.rotZ = - (this.rotZ + Math.PI);}
+		if(this.posX < 0)                	{this.posX = 0                	; this.rotZ = - (this.rotZ + Math.PI);}
+		if(this.posY > lienzoFinal.height)	{this.posY = lienzoFinal.height	; this.rotZ = - (this.rotZ);}
+		if(this.posY < 0)					{this.posY = 0    				; this.rotZ = - (this.rotZ);}
 	}
 
 	// Cambia la dirección y aumenta la velocidad cuando está cerca de la posición parametrizada
@@ -260,7 +239,7 @@ function Pez(){
 			} else {
 				this.rotZ += Math.PI
 			}
-			this.velocidad += 0.1;
+			this.velocidad += 0.3;
 			this.huyendo = true;
 		} else{
 			this.huyendo = false;
@@ -280,15 +259,14 @@ function Pez(){
 
 	// Persigue un punto parametrizado
 	this.persigue = function(x,y){
+		
 		var catX = x - this.posX;
 		var catY = y - this.posY;
 		var distancia = Math.sqrt(Math.pow(catX, 2) + Math.pow(catY, 2));
-		
-		// Si está cerca del punto reduce la velocidad
+
+		// Si está cerca del punto reduce la velocidad un 10%
 		if (distancia < 10) {
-			this.velocidad -= 0.1;
-		} else {
-			this.velocidad = this.velocidadInicial;
+			this.velocidad -= this.velocidad/10;
 		}
 	
 		this.rotZ = anguloEntrePuntos(this.posX,this.posY,x,y);
@@ -298,11 +276,14 @@ function Pez(){
 	// Además reduce la velocidad poco a poco si es superada por alguna causa
 	this.mover = function(){
 
-		// Reajusta la velocidad poco a poco si se ha incrementado por encima de la velocidad inicial por alguna razón
+		// Reajusta la velocidad poco a poco si se ha variado con respecto a la velocidad inicial
+		// por alguna razón. El pez siempre tiende a nadar a su velocidad inicial
 		if (this.velocidad > this.velocidadInicial){
-			this.velocidad -= 0.02;
+			this.velocidad -= 0.01;
+		} else if (this.velocidad < this.velocidadInicial){
+			this.velocidad += 0.01;
 		}
-		
+
 		// Calcula la posición 
 		this.posX += Math.cos(this.rotZ) * this.velocidad;	// Actualizo posición x del pez
 		this.posY += Math.sin(this.rotZ) * this.velocidad;	// Actualizo posición y del pez
@@ -317,13 +298,16 @@ function Pez(){
 		var desfase;
 		var desfaseX;
 		var desfaseY;
-	
+
 		// Se calcula un desfase utilizando la función de onda del movimiento armónico simple. Esta función nos da un valor
 		// entre -1 y 1, en función del tiempo. Ese valor es el desfase que hay que sumar a la posición del pez, De esta forma 
 		// el pez tiene una dirección principal que sigue y se guarda en las propiedades de animado: posX, posY, rotZ y velocidad;
 		// y por otra parte se guarda la posición corregida con el desfase en el array de posiciones de movimiento ondulatorio.
 		// En el array tenemos n puntos
-		this.tiempo += (frameTime/1000);		
+		// Se ajusta el tiempo para disminuir el periodo de manera que al aumentar la velocidad ondule más rápido
+		this.tiempo += (frameTime/1000)* ((this.velocidad/this.velocidadInicial));
+		
+		// Se calcula el desfase de la ondulación
 		desfase = this.amplitud *  Math.sin(((2 * Math.PI/this.periodo) * this.tiempo) + this.fase);
 		// Se rota el desfase en la dirección perpendicular al movimiento principal
 		desfaseX = Math.cos(this.rotZ + (Math.PI/2)) * desfase;
@@ -332,6 +316,7 @@ function Pez(){
 		this.posXOndula = this.posX + desfaseX;	
 		this.posYOndula = this.posY + desfaseY;	
 		
+		// Actualizar el array de articulaciones
 		// Se elimina la última posición
 		this.articulaciones.pop();		
 		// Se crea una nueva posición con las nuevas coordenadas calculadas
