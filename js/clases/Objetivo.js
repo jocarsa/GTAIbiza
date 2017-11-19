@@ -69,11 +69,13 @@ function Objetivo(){
 	 * @param {Object} objetivo objetivo del pez
 	 */
 	this.cambiarDireccionObjetivo = function() {
+		var deltaDir;
 		tiempoDireccion -= frameTime;
 
 		if (tiempoDireccion < 0) {
 			tiempoDireccion = cambioDireccion + (cambioDireccion * (Math.random() -0.5));
-			this.rotZ = (Math.random() - 0.5) * 0.5;
+			deltaDir = (Math.random() - 0.5) * 0.5;
+			this.rotZ += Math.PI * 2 * deltaDir;
 		}
 	}
 
