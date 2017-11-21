@@ -9,24 +9,30 @@ var lienzoPlanta = document.getElementById("lienzoPlanta");
 var contextoPlanta = lienzoPlanta.getContext("2d");
 var lienzoPajaro = document.getElementById("lienzoPajaro");
 var contextoPajaro = lienzoPajaro.getContext("2d");
-var lienzoFinal = document.getElementById("lienzoFinal");
-var contextoFinal =  lienzoFinal.getContext("2d");
 var temporizador;
 var gameOver = false;
 var puedesIniciar = 0;
+
 // Mapas dibujados
-var mapaBonito = new Image();
-mapaBonito.src = "img/ciudad.png";
+var anchuraMapa = 7552;
+var alturaMapa = 4224;
+
+var mapaBonito = new Mapa(anchuraMapa, alturaMapa, "img/ciudad.png");
+
 var mapaPerro = new Image();
 mapaPerro.src = "img/ciudadperro.png";
-var mapaCoche = new Image();
-mapaCoche.src = "img/ciudadcoche.png";
+
+var mapaCoche = new Mapa(anchuraMapa, alturaMapa, "img/ciudadcoche3.png");
+
 var mapaPlanta = new Image();
 mapaPlanta.src = "img/ciudadplanta.png";
 var mapaPajaro = new Image();
 mapaPajaro.src = "img/ciudadpajaro.png";
 var mapaFinal = new Image();
 mapaFinal.src = "img/mapaFinal.png";
+
+// Variable global cámara
+var camara;
 
 //---------------------------------------+ PERROS
 //Imagen de los perros
@@ -44,24 +50,25 @@ var perroMeos  = new Array();
 //---------------------------------------+ 
 
 //---------------------------------------+ COCHE PROTAGONISTA
+var cocheProtagonista;
 // Cargamos la imagen del coche
 var imagenCoche = new Image();
 imagenCoche.src = "img/coche.png";
 //---------------------------------------+ 
 
 //---------------------------------------+ COCHE BOT
-var posPx=[1080,745,575,745,365,575,365,365,890,890,890,1080,1080,915,915,935,935,765,765,552,552,788,788,958,958,915,915,340,340,1080];
-var posPy=[999,999,999,1080,999,675,730,155,155,255,440,255,243,243,136,440,620,620,655,655,1018,675,639,639,413,413,255,136,1018,1018];
-var bot1=new botObj(4,6,"1D","1I","1ARRB","1ABJ");
-var bot2=new botObj(0,1,"2D","2I","2ARRB","2ABJ");
-var bot3=new botObj(12,13,"3D","3I","3ARRB","3ABJ");
-var bot4=new botObj(11,9,"4D","4I","4ARRB","4ABJ");
-var bot5=new botObj(3,1,"1D","1I","1ARRB","1ABJ");
-var bot6=new botObj(5,21,"5D","5I","5ARRB","5ABJ");
-var bot7=new botObj(13,14,"6D","6I","6ARRB","6ABJ");
-var bot8=new botObj(16,17,"3D","3I","3ARRB","3ABJ");
-var bot9=new botObj(8,9,"5D","5I","5ARRB","5ABJ");
-var bot10=new botObj(2,5,"4D","4I","4ARRB","4ABJ");
+var posPx=[305,515,560,515,875,875,1130,1195,1195,1450,1450,1385,1385,515,1130,560,1350,1350,1415,1415,1160,1160,840,840,560,840,1610,1610,1710,1710,1610,1610,1610,1610,1610,1710,1710,1710,1710,1710,2375,2470,2375,2470,2150,2050,2050,2150,2150,2695,2150,2730,2730,2150,2730,2730,3140,3140,3140,3140,2730,2150,2150,2730,3140,2730,1710,1610,1610,1710,2150,3175,2470,2730,3175];
+var posPy=[1400,1400,1400,1900,1900,1258,1900,1258,1195,1195,780,780,260,260,2470,300,300,810,810,1160,1160,1225,1225,1865,1865,1900,1900,2470,2470,1900,2540,3240,2150,2860,1675,3140,2860,2540,2150,1770,3240,3140,3560,3460,1770,1675,1350,1450,1705,1705,1675,1675,2150,2150,1450,1130,1130,1450,2150,2540,2540,2540,2860,2860,2055,2055,2055,2055,2500,2500,2500,2500,3560,2500,2540];
+var bot1=new botObj(35,36,"1D","1I","1ARRB","1ABJ");
+var bot2=new botObj(66,39,"2D","2I","2ARRB","2ABJ");
+var bot3=new botObj(5,7,"3D","3I","3ARRB","3ABJ");
+var bot4=new botObj(2,15,"4D","4I","4ARRB","4ABJ");
+var bot5=new botObj(11,12,"1D","1I","1ARRB","1ABJ");
+var bot6=new botObj(20,21,"5D","5I","5ARRB","5ABJ");
+var bot7=new botObj(14,27,"6D","6I","6ARRB","6ABJ");
+var bot8=new botObj(37,61,"3D","3I","3ARRB","3ABJ");
+var bot9=new botObj(46,45,"5D","5I","5ARRB","5ABJ");
+var bot10=new botObj(10,11,"4D","4I","4ARRB","4ABJ");
 
 //---------------------------------------+ 
 
