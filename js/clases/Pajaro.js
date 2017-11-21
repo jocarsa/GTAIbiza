@@ -52,14 +52,14 @@ function Pajaro() {
 		}
 		//Dibujar Pajaro Posando
 		this.dibpajposando = function() {
-			contextoFinal.drawImage(imagenpajaroP,this.posX,this.posY);
+			contexto1.drawImage(imagenpajaroP,this.posX,this.posY);
 		}
 		//Dibujar Pajaro Volando
 		this.dibpajvolando = function(radianes, imagen) {
-			contextoFinal.save();
-			contextoFinal.translate(this.posX+imagen.width/2, this.posY+imagen.height/2);
-			contextoFinal.rotate(radianes);
-			contextoFinal.drawImage(imagen, -imagen.width/2, -imagen.height/2);
-			contextoFinal.restore();
+			contexto1.save();
+			contexto1.translate(this.posX+imagen.width/2, this.posY+imagen.height/2);
+			contexto1.rotate(radianes);
+			contexto1.drawImage(imagen, -imagen.width/2, -imagen.height/2);
+			contexto1.restore();
 		}
 }

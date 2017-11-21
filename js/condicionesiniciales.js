@@ -9,24 +9,48 @@ var lienzoPlanta = document.getElementById("lienzoPlanta");
 var contextoPlanta = lienzoPlanta.getContext("2d");
 var lienzoPajaro = document.getElementById("lienzoPajaro");
 var contextoPajaro = lienzoPajaro.getContext("2d");
-var lienzoFinal = document.getElementById("lienzoFinal");
-var contextoFinal =  lienzoFinal.getContext("2d");
+
+//----------------------------------------------------------+ POLICIA
+var lienzoCoche2 = document.getElementById("lienzoCoche2");
+var contextoCoche2 = lienzoCoche2.getContext("2d"); 
+var lienzoFinal2 = document.getElementById("lienzoFinal2");        
+var contextoFinal2 =  lienzoFinal2.getContext("2d");
+var lienzoUI = document.getElementById("lienzoUI");        
+var contextoUI =  lienzoUI.getContext("2d");
+
+var cochePolicia1,cochePolicia2;
+var cochePolicia = new Image();
+cochePolicia.src = "img/cochePolicia.png";
+var mapaFinal2 = new Mapa(anchuraMapa, alturaMapa, "img/mapaFinal.png");
+var mapaCoche2 = new Image();
+mapaCoche2.src = "img/ciudadcoche4.png";
+
+//------------------------------------------------------------------+
+
 var temporizador;
 var gameOver = false;
 var puedesIniciar = 0;
+
 // Mapas dibujados
-var mapaBonito = new Image();
-mapaBonito.src = "img/ciudad.png";
+var anchuraMapa = 7552;
+var alturaMapa = 4224;
+
+var mapaBonito = new Mapa(anchuraMapa, alturaMapa, "img/ciudad.png");
+
 var mapaPerro = new Image();
 mapaPerro.src = "img/ciudadperro.png";
-var mapaCoche = new Image();
-mapaCoche.src = "img/ciudadcoche.png";
+
+var mapaCoche = new Mapa(anchuraMapa, alturaMapa, "img/ciudadcoche3.png");
+
 var mapaPlanta = new Image();
 mapaPlanta.src = "img/ciudadplanta.png";
 var mapaPajaro = new Image();
 mapaPajaro.src = "img/ciudadpajaro.png";
 var mapaFinal = new Image();
 mapaFinal.src = "img/mapaFinal.png";
+
+// Variable global cámara
+var camara;
 
 //---------------------------------------+ PERROS
 //Imagen de los perros
@@ -44,6 +68,7 @@ var perroMeos  = new Array();
 //---------------------------------------+ 
 
 //---------------------------------------+ COCHE PROTAGONISTA
+var cocheProtagonista;
 // Cargamos la imagen del coche
 var imagenCoche = new Image();
 imagenCoche.src = "img/coche.png";

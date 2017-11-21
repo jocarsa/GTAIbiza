@@ -1,9 +1,13 @@
 canvas{
    position:absolute;
-   border:50px solid black;
+   border:5px solid black;
 }
 #lienzoCoche,#lienzoPerro,#lienzoPlanta,#lienzoPajaro{display:none;}
-#lienzo1,#lienzoFinal{display:block;}
+#lienzo1{display:block;}
+
+#lienzoCoche2{display:block;}
+#lienzoFinal2,#lienzoUI{display:block;}
+
 #gameOver{
   position: absolute;
   width: 100%;
