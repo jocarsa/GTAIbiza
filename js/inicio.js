@@ -5,11 +5,21 @@ function inicio() {
 		
 		$("#botonEmpezarJuego").mousedown(function(event) {
 			//Si se pulsa el boton izquierdo del raton
+<<<<<<< HEAD
 			if (event.which == 1 && puedesIniciar == 6) {
 				//Oculta el botonEmpezarJuego 
 				$("#interfazUsuario").hide(); 
 				condicionesInicialesCocheProtegonista();
 				valoresInicialesPez();
+=======
+			if (event.which == 1 && puedesIniciar == 3) {
+				//Oculta el botonEmpezarJuego 
+				$("#interfazUsuario").hide(); 
+				condicionesInicialesCocheProtegonista();
+				situarCamara();
+				mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
+				mapaCoche.dibujar(contextoCoche, camara.vistaX, camara.vistaY);
+>>>>>>> origin/COCHES-BOT
 				//Ejecutamos bucle()
 				bucle();
 			}
@@ -36,21 +46,28 @@ function inicio() {
 				//Oculta el botonEmpezarJuego 
 				$("#gameOver").hide(); 
 				condicionesInicialesCocheProtegonista();
+<<<<<<< HEAD
 				valoresInicialesPez();
+=======
+				situarCamara();
+				mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
+				mapaCoche.dibujar(contextoCoche, camara.vistaX, camara.vistaY);
+>>>>>>> origin/COCHES-BOT
 				//Ejecutamos bucle()
 				gameOver = false;
 				bucle();
 			}
 		});
 		//---------------------------------------+ MAPAS
-		dibujaMapaBonito();
-		dibujaMapaCoche();
 		dibujaMapaPerro();
 		dibujaMapaPlanta();
 		dibujaMapaPajaro();
+<<<<<<< HEAD
 		dibujaMapaPeces();
 		
 		//---------------------------------------+ 
+=======
+>>>>>>> origin/COCHES-BOT
 	
 		//---------------------------------------+ COCHE PROTAGONISTA
 		eventosCocheProtagonista();
