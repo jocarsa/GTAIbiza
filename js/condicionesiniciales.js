@@ -11,6 +11,8 @@ var lienzoPlanta = document.getElementById("lienzoPlanta");
 var contextoPlanta = lienzoPlanta.getContext("2d");
 var lienzoPajaro = document.getElementById("lienzoPajaro");
 var contextoPajaro = lienzoPajaro.getContext("2d");
+var lienzoPeces = document.getElementById("lienzoPeces");
+var contextoPeces = lienzoPajaro.getContext("2d");
 var lienzoFinal = document.getElementById("lienzoFinal");
 var contextoFinal =  lienzoFinal.getContext("2d");
 var temporizador;
@@ -27,6 +29,8 @@ var mapaPlanta = new Image();
 mapaPlanta.src = "img/ciudadplanta.png";
 var mapaPajaro = new Image();
 mapaPajaro.src = "img/ciudadpajaro.png";
+var mapaPeces = new Image();
+mapaPeces.src = "img/ciudadpeces.png";
 var mapaFinal = new Image();
 mapaFinal.src = "img/mapaFinal.png";
 

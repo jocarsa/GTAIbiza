@@ -5,7 +5,7 @@ function inicio() {
 		
 		$("#botonEmpezarJuego").mousedown(function(event) {
 			//Si se pulsa el boton izquierdo del raton
-			if (event.which == 1 && puedesIniciar == 5) {
+			if (event.which == 1 && puedesIniciar == 6) {
 				//Oculta el botonEmpezarJuego 
 				$("#interfazUsuario").hide(); 
 				condicionesInicialesCocheProtegonista();
@@ -48,6 +48,7 @@ function inicio() {
 		dibujaMapaPerro();
 		dibujaMapaPlanta();
 		dibujaMapaPajaro();
+		dibujaMapaPeces();
 		
 		//---------------------------------------+ 
 	

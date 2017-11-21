@@ -12,19 +12,34 @@ function valoresInicialesPez(){
 		objetivosComunes[i] = new Objetivo();
 		// Inicializo variables
 		objetivosComunes[i].constructor();		
-		
+	}
+	
+	
+	
+	objetivosComunes[0].posX = 50;
+	objetivosComunes[0].posY = 50;
+	objetivosComunes[0].rotZ = 1;
+	
+	objetivosComunes[1].posX = 50;
+	objetivosComunes[1].posY = 50;
+	
+	for(var i = 0; i < nBancos; i++) {
 		// Creo los peces
+
 		for (var j = 0; j < nPeces; j++) {						
 			objetivosComunes[i].peces[j] = new Pez();	
-			objetivosComunes[i].peces[j].constructor();
+			objetivosComunes[i].peces[j].constructor();			
 			objetivosComunes[i].peces[j].color = "white";
+			objetivosComunes[i].peces[j].posX = 10;
+			objetivosComunes[i].peces[j].posY = 10;
 			objetivosComunes[i].peces[j].objetivo.posX = objetivosComunes[i].posX + 
 														(objetivosComunes[i].peces[j].ratioPosicionObjetivo * Math.cos(2 * Math.PI * Math.random()));
 			objetivosComunes[i].peces[j].objetivo.posY = objetivosComunes[i].posY + 
 														(objetivosComunes[i].peces[j].ratioPosicionObjetivo * Math.sin(2 * Math.PI * Math.random()));
 			objetivosComunes[i].peces[j].objetivo.centrar();
 		}
-	}
+	}	
+	
 	
 	//Damos valores iniciales al tiburon
 	tiburon.posX = 0;
@@ -86,7 +101,7 @@ function actualizarPez() {
 		//dibujaRectangulo(tiburon.posX,tiburon.posY,20,20,"blue");
 		
 	}	
-
+	
 	// Banco de peces 1: forma circular
 	objetivosComunes[1].dibuja('yellow');
 	objetivosComunes[1].colisionBordes();
@@ -115,7 +130,7 @@ function actualizarPez() {
 		//objetivosComunes[1].peces[i].dibujaVelocidad("red");
 		//objetivosComunes[1].peces[i].dibujaPosicion("red");
 	}	
-
+	
 	//Mover el tiburon
 	tiburon.comportamientoTiburon();
 	tiburon.colisionBordes();

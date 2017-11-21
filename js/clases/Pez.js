@@ -212,10 +212,21 @@ function Pez(){
 	
 	// Rebota en los límites del canvas con un borde
 	this.colisionBordes = function(){
+		/*
 		if(this.posX > lienzoFinal.width)	{this.posX = lienzoFinal.width	; this.rotZ = - (this.rotZ + Math.PI);}
 		if(this.posX < 0)                	{this.posX = 0                	; this.rotZ = - (this.rotZ + Math.PI);}
 		if(this.posY > lienzoFinal.height)	{this.posY = lienzoFinal.height	; this.rotZ = - (this.rotZ);}
 		if(this.posY < 0)					{this.posY = 0    				; this.rotZ = - (this.rotZ);}
+		*/
+		var x = this.posX + (Math.cos(this.rotZ) * (this.velocidad));
+		var y = this.posY + (Math.sin(this.rotZ) * (this.velocidad));
+		
+		color = contexto1.getImageData(x, y, 1, 1); // Miro hacia donde voy en x e y
+		// Transparente
+		if (color.data[3] == 0 ){
+			this.rotZ += (Math.PI) * (Math.random - 0.5) *0.2;
+		}
+		
 	}
 
 	// Huye del punto x, y. Cambia la dirección y aumenta la velocidad cuando está cerca de la posición parametrizada
