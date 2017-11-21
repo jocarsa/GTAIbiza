@@ -12,6 +12,7 @@ function dibujaMapaBonito() {
 function dibujaMapaPerro(){
 	mapaPerro.onload = function() {
 		contextoPerro.drawImage(mapaPerro, 0, 0);
+		creaArdillas();
 		creaPerros();
 		puedesIniciar++;
 	}
@@ -165,6 +166,90 @@ function limpiaMeos(){
 		}
 	}
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////																						/////
+////							Funciones de las ardillas									/////
+////																						/////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function creacionClasesArdillas(){
+	for (var i =0; i<numeroardillas; i++){
+		ardilla[i] = new Ardilla();
+		ardilla[i].posx;
+		ardilla[i].posy;
+		ardilla[i].direccion;
+		ardilla[i].velocidad;
+		ardilla[i].numeroardillas = 10;
+		ardilla[i].cuentavelocidad = 0;
+		ardilla[i].imagenx = 0;
+		ardilla[i].imageny = 0;
+	}
+}
+function creaArdillas(){
+	var contador = numeroardillas;
+	var randomPosicionPerro = 0;
+	var lastx = 0;
+	var lasty = 0;
+	var distance = 100;
+	while(contador>-1)
+	{
+		var pruebax = Math.round(Math.random()*1000);
+		var pruebay = Math.round(Math.random()*1000);
+		var colormapaperro = contextoPerro.getImageData(pruebax, pruebay,1,1);
+		if (colormapaperro.data[0]==80 &&
+			(pruebax > (lastx+distance) || pruebax < (lastx-distance)) &&
+			(pruebay > (lasty+distance) || pruebay < (lasty-distance)))
+		{
+			ardilla[contador] = new Ardilla();
+			ardilla[contador].posx = pruebax;
+			ardilla[contador].posy = pruebay;
+			ardilla[contador].direccion = Math.random()*Math.PI*2;
+			ardilla[contador].velocidad = 1;
+			contador--;
+ 		}
+ 		lastx = pruebax;
+ 		lasty = pruebay;
+	}
+}
+function mueveArdillas(){
+ 	for (var i = 0; i<numeroardillas; i++){
+		ardilla[i].cuentavelocidad++;
+		ardilla[i].direccion += (Math.random()-0.5) * 0.5;				// Varío el ángulo aleatoriamente
+		ardilla[i].tempx = ardilla[i].posx + Math.cos(ardilla[i].direccion)*ardilla[i].velocidad;					// Miro hacia donde voy en x
+		ardilla[i].tempy = ardilla[i].posy + Math.sin(ardilla[i].direccion)*ardilla[i].velocidad;		// Miro hacia donde voy en y
+		var color = contextoPerro.getImageData(ardilla[i].tempx,ardilla[i].tempy,1,1);	// Miro el color en ese punto
+		if (color.data[0]==80){
+			ardilla[i].posx += Math.cos(ardilla[i].direccion)*ardilla[i].velocidad;					// Trabajo la proyección horizontal
+			ardilla[i].posy += Math.sin(ardilla[i].direccion)*ardilla[i].velocidad;					// Trabajo la proyección vertical
+		}
+		if (color.data[3] == 0) {										// Si el valor de la transparencia es 0 el perro da la vuelta
+			ardilla.direccion += Math.PI;
+		}
+		if (perro[i].posx == ardilla[i].posx-5) {										
+			ardilla.direccion += Math.PI;
+		}
+		if (perro[i].posx == ardilla[i].posx+5) {										
+			ardilla.direccion += Math.PI;
+		}
+		if (perro[i].posy == ardilla[i].posy+5) {										
+			ardilla.direccion += Math.PI;
+		}
+		if (perro[i].posy == ardilla[i].posy-5) {										
+			ardilla.direccion += Math.PI;
+		}
+		if(ardilla[i].cuentavelocidad % 5 == 0){
+			ardilla[i].imagenx++;
+		if (ardilla[i].imagenx >= 6){
+			ardilla[i].imagenx = 0;
+		}
+	}
+		contextoFinal.drawImage(imagenardilla,ardilla[i].posx,ardilla[i].posy,10,10);     		
+	}
+}
+
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////																						/////
 ////							Funciones de las plantas									/////

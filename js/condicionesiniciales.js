@@ -41,7 +41,11 @@ var tiempoSinMeos = 0;
 var caducidadDelMeo = 0;
 var numeroMeos = 0;
 var perroMeos  = new Array();
-//---------------------------------------+ 
+//---------------------------------------+ ARDILLAS
+var imagenardilla = new Image();
+imagenardilla.src = "img/ardilla.png";
+var numeroardillas = 25;
+var ardilla = new Array();
 
 //---------------------------------------+ COCHE PROTAGONISTA
 // Cargamos la imagen del coche
