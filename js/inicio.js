@@ -5,10 +5,11 @@ function inicio() {
 		
 		$("#botonEmpezarJuego").mousedown(function(event) {
 			//Si se pulsa el boton izquierdo del raton
-			if (event.which == 1 && puedesIniciar == 5) {
+			if (event.which == 1 && puedesIniciar == 6) {
 				//Oculta el botonEmpezarJuego 
 				$("#interfazUsuario").hide(); 
 				condicionesInicialesCocheProtegonista();
+				valoresInicialesPez();
 				//Ejecutamos bucle()
 				bucle();
 			}
@@ -35,6 +36,7 @@ function inicio() {
 				//Oculta el botonEmpezarJuego 
 				$("#gameOver").hide(); 
 				condicionesInicialesCocheProtegonista();
+				valoresInicialesPez();
 				//Ejecutamos bucle()
 				gameOver = false;
 				bucle();
@@ -46,6 +48,7 @@ function inicio() {
 		dibujaMapaPerro();
 		dibujaMapaPlanta();
 		dibujaMapaPajaro();
+		dibujaMapaPeces();
 		
 		//---------------------------------------+ 
 	
@@ -66,7 +69,9 @@ function inicio() {
 		//---------------------------------------+
 		
 		//---------------------------------------+ PAJAROS
-		creacionPajaros();
+		creacionPajaros();		
+		//---------------------------------------+ PECES
+		eventosPez();
 		//---------------------------------------+
 	});
 }
