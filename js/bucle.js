@@ -1,18 +1,12 @@
 function bucle(){
-	contexto1.clearRect(0, 0, lienzo1.width, lienzo1.height);
+	contextoFinal.clearRect(0, 0, lienzoFinal.width, lienzoFinal.height);
 	
 	//---------------------------------------+ MAPAS
-<<<<<<< HEAD
-	dibujaMapaFinal();	
-=======
-	//dibujaMapaBonito();
-	mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
-	//contexto1.drawImage(mapaBonito, 0, 0);
->>>>>>> origin/COCHES-BOT
+	dibujaMapaFinal();
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ PERROS
-	//muevePerro();   muteado para que no aparezcan perros
+	muevePerro();
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ COCHE BOT
@@ -26,14 +20,11 @@ function bucle(){
 	bot8.player();
 	bot9.player();
 	bot10.player();
-
-	//losPuntos()
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ COCHE PROTAGONISTA
 	// Actualizo el coche del protagonista
 	actualizarCocheProtagonista();
-	camara.actualizar();
 	//---------------------------------------+
 	
 	//---------------------------------------+ PLANTAS
@@ -42,22 +33,14 @@ function bucle(){
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ PAJAROS
-	//movimientoPajaros();muteado para que no aparezcan pajaros
-
+	movimientoPajaros();
 	//---------------------------------------+
 	
-	//---------------------------------------+ PECES
-	actualizarPez();
-	//---------------------------------------+ PECES
 	
 	if (gameOver == true)  {
 		$("#gameOver").show(); 
 	} else {
 		clearTimeout(temporizador);
-<<<<<<< HEAD
-		if(!gameOver){temporizador = setTimeout("bucle()", frameTime);}
-=======
-		if(!gameOver){temporizador = setTimeout("bucle()", 20);}
->>>>>>> origin/COCHES-BOT
+		if(!gameOver){temporizador = setTimeout("bucle()", 33);}
 	}
 }

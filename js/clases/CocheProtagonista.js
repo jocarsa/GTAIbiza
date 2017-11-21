@@ -11,10 +11,10 @@ function CocheProtagonista() {
 	// Métodos
 	// La detección de colisión y cambios de terreno, que afectan al comportamiento del coche, se han programado 
 	// mediante codificación de colores del terreno:
-	//  * Color gris opaco significa acera				[80, 80, 80, 255]
-	//  * Color negro opaco significa carretera			[0, 0, 0, 255]
-	//  * Color negro transparente significa muro		[0, 0, 0,  0]
-	//  * Color gris más claro significa gasolinera		[135, 135, 135, 255]
+	//  * Color gris opaco significa acera			[80, 80, 80, 255]
+	//  * Color negro opaco significa carretera		[0, 0, 0, 255]
+	//  * Color negro transparente significa muro	[0, 0, 0,  0]
+	//  * Color negro transparente significa muro	[135, 135, 135, 255]
 	
 	// Comprueba cambios de terreno (diferente rozamiento)
 	this.compruebaTerreno = function(){

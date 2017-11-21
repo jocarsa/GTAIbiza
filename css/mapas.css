@@ -3,7 +3,7 @@ canvas{
    border:50px solid black;
 }
 #lienzoCoche,#lienzoPerro,#lienzoPlanta,#lienzoPajaro{display:none;}
-#lienzo1{display:block;}
+#lienzo1,#lienzoFinal{display:block;}
 #gameOver{
   position: absolute;
   width: 100%;
