@@ -87,17 +87,13 @@ var colorMapaArbol;
 //---------------------------------------+ 
 
 //---------------------------------------+ PAJAROS
-var pajaros = [];
-var pajlider;
-//Declaramos los pajaros de la formacion. El numero de pajaros a acada lado es aleatorio entre 1 y 4
-var pajarosfori = [];
-var pajarosford = [];
-var numpajI = Math.round(Math.random()*(4-1)+1);
-var numpajD = Math.round(Math.random()*(4-1)+1);
+var temporizador;
+var manada = [];
+var flockRadius = 250;
 
 //Cargamos la imagen de los pajaros
-var imagenpajaroV = new Image();
-imagenpajaroV.src = "img/pajarovolando.png";
+var imagenPajaro = new Image();
+imagenPajaro.src = "img/pajarovolando.png";
 var imagenpajaroP = new Image();
 imagenpajaroP.src = "img/pajaroposando.png";
 var imagenpajaro2 = new Image();

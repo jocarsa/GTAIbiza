@@ -200,74 +200,105 @@ function generarArboles(){
 ////							Funciones de los pajaros									/////
 ////																						/////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function movimientoPajaros(){
-	//Pajaro Volando
-	for (var i=0; i<15; i++) {
-		pajaros[i].variarAngulo(); //Variamos angulo
-		//Ejecutamos el movimiento del pajaro teniendo en cuenta su energia
-		pajaros[i].movEnerPaj();
-		//Dibujamos los pajaros
-		if (pajaros[i].volando) {pajaros[i].dibpajvolando(pajaros[i].rotZ, imagenpajaroV);}
-		if (pajaros[i].posando) {pajaros[i].dibpajposando();}
-	}
-	// Pajaros Bandada en Formacion
-	// Movimiento y pintado del pajaro lider
-	pajlider.mover();
-	pajlider.dibpajvolando(pajlider.rotZ, imagenpajaro2);
-	
-	//Movimiento y pintado de los pajaros seguidores
-	for (var i=0; i<numpajI; i++) {
-		//Movemos y Pintamos formacion izquierda
-		pajarosfori[i].mover();
-		pajarosfori[i].dibpajvolando(pajlider.rotZ, imagenpajaro2);
-	}
-	for (var i=0; i<numpajD; i++) {
-		//Movemos y pintamos formacion derecha
-		pajarosford[i].mover();
-		pajarosford[i].dibpajvolando(pajlider.rotZ, imagenpajaro2);
-	}
-}
 function creacionPajaros(){
-	// Condiciones iniciales de pajaros
-	for (var i=0; i<15; i++) {
-		pajaros[i] = new Pajaro();
-		pajaros[i].velocidad = Math.random()*(5-3)+3; 		//Velocidad entre 2 y 5
-		pajaros[i].volando = true;							//Los pajaros empiezan moviendose
-		pajaros[i].posando = false;
-		pajaros[i].tiempodescanso = 0;
-		pajaros[i].energia = Math.random()*(300-100)+100;	//Valores entre 300 y 100 de energia inicial
-		pajaros[i].posX = Math.round(Math.random()*lienzo1.width);
-		pajaros[i].posY = Math.round(Math.random()*lienzo1.height);
-		pajaros[i].rotZ = Math.random()*Math.PI*2;
+	var Boid = function(x, y, heading, size, energia, speed) {
+
+		this.x = x;
+		this.y = y;
+		this.heading = heading;
+		this.size = size;
+		this.energia = energia;
+		this.volando = true;
+		this.posando = false;
+		this.tiempodescanso = 0;
+		this.colorparada;
+		this.speed = speed;
+
+	};
+
+	for (var i = 0; i < 40; i++)
+		{
+			manada.push(new Boid(Math.random() * 1068, Math.random() * 1068, Math.random() * 360, 10, Math.random()*(1000-100)+100, 2));
+			
+		}
+
+}
+function movimientoPajaros(){
+	for (var i = 0; i < manada.length; i++)
+	{
+		var b = manada[i];
+		if(b.volando){
+			dibpajvolando(b.x, b.y,10, 10, manada[i].heading);
+		}else{
+			dibpajposando(b.x, b.y);
+		}
+
+	clearTimeout(temporizador);
+	temporizador = setTimeout("bucle()", 16);
+
 	}
-	// Condiciones iniciales del pajaro lider y su bandada
-	// Pajaro Lider
-	// El pajaro sale del lado derecho con un angulo entre 30 y -30. Sale de entre 1/1 y 3/4 de la altura del lienzo
-	pajlider = new Pajaro();
-	pajlider.velocidad = Math.random()*(2-1)+1;		//Parte con una velocidad de entre 1 y 2
-	pajlider.posX = 0;
-	pajlider.posY = Math.round(Math.random()*(lienzo1.height*0.75-lienzo1.height*0.25)+lienzo1.height*0.25);
-	pajlider.rotZ = Math.random()*(-Math.PI/3)+Math.PI/6;
-		
-	// Pajaros Formacion
-	// Los pajaros que siguen al lider lo hacen formando un angulo (diferente los de izq y der). Tienen misma vel y sentido
-	// Pajaros del flanco izquierdo
-	for (var i = 0; i<numpajI; i++) {
-		pajarosfori[i] = new Pajaro();
-		pajarosfori[i].velocidad = pajlider.velocidad;
-		pajarosfori[i].posX = pajlider.posX - 30*(i+1)*Math.cos(pajlider.rotZ+Math.PI/4);
-		pajarosfori[i].posY = pajlider.posY - 30*(i+1)*Math.sin(pajlider.rotZ+Math.PI/4);
-		pajarosfori[i].rotZ = pajlider.rotZ;
+	Pajaro();
+
+	function dibpajvolando(x, y, width, height, radianes) {
+	// contexto.drawImage(imagenPajaro, x, y, 10, 10);
+	contextoFinal.save();
+	contextoFinal.translate(x+width/2, y+height/2);
+	contextoFinal.rotate(radianes*Math.PI/180);
+	contextoFinal.drawImage(imagenPajaro, -width/2, -height/2);
+	contextoFinal.restore();
 	}
-	// Pajaros del flanco derecho
-	for (var i = 0; i<numpajD; i++) {
-		pajarosford[i] = new Pajaro();
-		pajarosford[i].velocidad = pajlider.velocidad;
-		pajarosford[i].posX = pajlider.posX - 30*(i+1)*Math.cos(pajlider.rotZ-Math.PI/6);
-		pajarosford[i].posY = pajlider.posY - 30*(i+1)*Math.sin(pajlider.rotZ-Math.PI/6);
-		pajarosford[i].rotZ = pajlider.rotZ;
+
+	function dibpajposando(x, y) {
+		contextoFinal.drawImage(imagenpajaroP,x, y);
 	}
 }
+function drawRotated1(radianes) {
+  //contextoFinal.clearRect(0,0,lienzo1.width,lienzo1.height);
+
+  // save the unrotated context of the canvas so we can restore it later
+  // the alternative is to untranslate & unrotate after drawing
+  contextoFinal.save();
+
+  // move to the center of the canvas
+  contextoFinal.translate(imagenPajaro.posX, imagenPajaro.posY);
+
+  // rotate the canvas to the specified degrees
+  contextoFinal.rotate(radianes);
+
+  // draw the image
+  // since the context is rotated, the image will be rotated also
+  contextoFinal.drawImage(imagenPajaro, -imagenPajaro.width / 2, -imagenPajaro.height / 2);
+
+  // we’re done with the rotating so restore the unrotated context
+  contextoFinal.restore();
+}
+function distanceBetween(a, b)  {
+    var dx = a.x - b.x;
+    var dy = a.y - b.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function angleBetween(x1, y1, x2, y2)
+  {
+    return Math.atan2(y1 - y2, x1 - x2) * (180.0 / Math.PI);
+  }
+
+  function angleDifference(a1, a2)
+  {
+    return ((((a1 - a2) % 360) + 540) % 360) - 180;
+  }
+
+  function degreesToRadians(degrees){
+    return degrees * (Math.PI / 180);
+  }
+
+  function dir_x(length, angle){
+    return length * Math.cos(degreesToRadians(angle));
+  }
+
+  function dir_y(length, angle){
+    return length * Math.sin(degreesToRadians(angle));
+  }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////																						/////
 ////							Funciones del coche protagonista							/////
