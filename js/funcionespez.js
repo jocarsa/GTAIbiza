@@ -5,12 +5,35 @@ function valoresInicialesPez(){
 	// Creo los peces
 	cursor = new Cursor();
 
-	for (var i = 0; i < nPeces; i++) {
-		peces[i] = new Pez();
-		// Propiedades			
-		peces[i].constructor();
-		peces[i].color = "white";		
-	}		
+	//Creo Objetivos Comunes por cada numero Peces en cada bandada (nPeces / nBancos)
+
+	for(var i = 0; i < nBancos; i++) {
+		// creo Objetivo
+		objetivosComunes[i] = new Objetivo();
+		// Inicializo variables
+		objetivosComunes[i].constructor();		
+		
+		// Creo los peces
+		for (var j = 0; j < nPeces; j++) {						
+			objetivosComunes[i].peces[j] = new Pez();	
+			objetivosComunes[i].peces[j].constructor();
+			objetivosComunes[i].peces[j].color = "white";
+			objetivosComunes[i].peces[j].objetivo.posX = objetivosComunes[i].posX + 
+														(objetivosComunes[i].peces[j].ratioPosicionObjetivo * Math.cos(2 * Math.PI * Math.random()));
+			objetivosComunes[i].peces[j].objetivo.posY = objetivosComunes[i].posY + 
+														(objetivosComunes[i].peces[j].ratioPosicionObjetivo * Math.sin(2 * Math.PI * Math.random()));
+		}
+		
+		
+		
+		
+		
+		/*objetivosComunes[i].setPosicion(200 + ((lienzoFinal.width - 200) * Math.random()),
+										200 + ((lienzoFinal.height -200) * Math.random()));		*/
+		//objetivosComunes[i].setPosicion(500,500)
+	}	
+	
+	
 }
 
 function eventosPez(){	
@@ -23,7 +46,7 @@ function eventosPez(){
 	
 	$("canvas").click(function(event){
 		// Al hacer click 		
-		for (var i = 0; i < nPeces; i++){peces[i].velocidad +=0.1;}
+		//for (var i = 0; i < nPeces; i++){peces[i].velocidad +=0.1;}
 		//for (var i = 0; i < nPeces; i++){peces[i].huye(event.pageX - 272, event.pageY - 50);}
 		
 	})
@@ -36,35 +59,60 @@ function eventosPez(){
 }
 	
 function actualizarPez() {
-	// Dibujo 
-	for (var i = 0; i < nPeces; i++) {
-		// Dibujar		
-		peces[i].dibujaPez();		
-		//peces[i].dibujaCabeza();
-		//peces[i].dibujaCuerpo();
-		//peces[i].dibujaArticulaciones();
-		//peces[i].dibujaObjetivo("red");		
-		//peces[i].dibujaPosicion();
-		//peces[i].dibujaVelocidad("red");
-		
-		// Mover
-		peces[i].mueveObjetivo();				
-		peces[i].ondula();
-		peces[i].mover();
-		peces[i].reducirVelocidad();
-		peces[i].persigueObjetivo();
-		
-		//peces[i].cambiaDireccion();
-		peces[i].cambiaRadio();
-		//peces[i].cambiaSentido();
 
-		peces[i].colisionparedes();
-	}
-	//cambiaDireccion(); 
+	// Banco de peces 0: forma lineal
+	//objetivosComunes[0].dibuja('yellow');
+	objetivosComunes[0].moverLinealmente();
+	objetivosComunes[0].colisionBordes();
+	//objetivosComunes[0].cambiaDireccion(); // No funciona si sigue a un objetivo
+	//objetivosComunes[0].cambiaPosicion();
+	objetivosComunes[0].cambiaObjetivos();
 	
-	cambiaRadio();
-	cambiaSentido();
-	cambiaCentro();
+	for (var i = 0; i < nPeces; i++) {			
+		objetivosComunes[0].peces[i].dibujaPez();
+		objetivosComunes[0].peces[i].mover();
+		//objetivosComunes[0].peces[i].objetivo.moverCircularmente();
+		objetivosComunes[0].peces[i].ondula();								
+		
+		objetivosComunes[0].peces[i].colisionBordes();					
+		objetivosComunes[0].peces[i].persigueObjetivo();			
+		objetivosComunes[0].peces[i].controlVelocidad();
+		//objetivosComunes[0].peces[i].cambiaDireccion(); // No funciona cuando persigue un objetivo
+		objetivosComunes[0].peces[i].cambiaPosicionObjetivo();
+		//objetivosComunes[0].peces[i].huye(500,500);		
+		//objetivosComunes[0].peces[i].objetivo.dibuja("blue");			
+		//objetivosComunes[0].peces[i].dibujaVelocidad("red");
+		//objetivosComunes[0].peces[i].dibujaPosicion("red");
+	}	
+
+	// Banco de peces 0: forma circular
+	//objetivosComunes[1].dibuja('yellow');
+	objetivosComunes[1].moverLinealmente();
+	objetivosComunes[1].colisionBordes();
+	//objetivosComunes[1].cambiaDireccion(); // No funciona si sigue a un objetivo
+	//objetivosComunes[1].cambiaPosicion();
+	//objetivosComunes[1].cambiaObjetivos();
+	objetivosComunes[1].cambiaRadio();
+	objetivosComunes[1].cambiaSentido();
+	
+	for (var i = 0; i < nPeces; i++) {			
+		objetivosComunes[1].peces[i].dibujaPez();
+		objetivosComunes[1].peces[i].mover();
+		objetivosComunes[1].peces[i].objetivo.moverCircularmente();
+		objetivosComunes[1].peces[i].ondula();				
+		
+		objetivosComunes[1].peces[i].colisionBordes();					
+		objetivosComunes[1].peces[i].persigueObjetivo();			
+		objetivosComunes[1].peces[i].controlVelocidad();
+		//objetivosComunes[1].peces[i].cambiaDireccion(); // No funciona cuando persigue un objetivo
+		//objetivosComunes[1].peces[i].cambiaPosicionObjetivo();
+		objetivosComunes[1].peces[i].cambiaRadio();
+		//objetivosComunes[1].peces[i].huye(500,500);		
+		//objetivosComunes[1].peces[i].objetivo.dibuja("blue");			
+		//objetivosComunes[1].peces[i].dibujaVelocidad("red");
+		//objetivosComunes[1].peces[i].dibujaPosicion("red");
+	}	
+		
 	
 }
 
@@ -126,94 +174,5 @@ function dibujaRectangulo(x, y, xEscala, yEscala, color, modo){
 
 }	
 
-/****************************************************************************************************************************/
-/* Estas funciones son para hacer lo que hace la clase pez pero con todos los elementos sincronizados, de esta forma se le  */
-/* da apariencia de conjunto: cambia la dirección, el radio del giro del objetivo especial, el sentido del giro y el centro */
-/****************************************************************************************************************************/
-
-// Cambia de dirección cada tiempo marcado por cambioDireccion en milisegundos
-function cambiaDireccion(){				
-	// Variables locales
-	var deltaDir; // Variación de la dirección que se aplicará a todos los elementos
-
-	tiempoDireccion -= frameTime;	
-	if (tiempoDireccion < 0) {
-		// El timeout ha vencido le damos un nuevo valor aleatorio basado en su valor inicial
-		tiempoDireccion = cambioDireccion + (cambioDireccion * (Math.random() -0.5));
-		// Se calcula la variación de la dirección, que será aplicada a todos los elementos
-		deltaDir = 1;//(Math.random() - 0.5) * ratioDireccion;
-		console.log("Cambio de direccion en " + (tiempoDireccion/1000) + " s");			
-		// Aplicamos el mismo cambio de dirección a todos los elementos
-		for (i = 0; i < nPeces ; i++) {			
-			deltaDir = (Math.random() - 0.5) * ratioDireccion;
-			peces[i].rotZ += deltaDir;
-		}
-	}
-}
 
 
-// Cambia de radio cada tiempo indicado
-function cambiaRadio(){
-	// Reduce el timeout
-	tiempoRadio -= frameTime;	
-	if (tiempoRadio < 0) {
-		// El timeout ha vencido le damos un nuevo valor aleatorio basado en su valor inicial
-		tiempoRadio = cambioRadio + (cambioRadio * (Math.random() -0.5));		
-		console.log("Cambio de radio en " + (tiempoRadio/1000) + " s");		
-		for (i = 0; i < nPeces ; i++) {
-			peces[i].objetivo.centroRadio += ratioRadio * (Math.random() - 0.5);
-			if (Math.abs(peces[i].objetivo.centroRadio) < 15){
-				peces[i].objetivo.centroRadio = 15
-			} 
-			if (peces[i].objetivo.centroRadio > (lienzoFinal.width/2)) {
-				peces[i].objetivo.centroRadio = (lienzoFinal.width/2) - 50
-			}
-		}
-		
-	}
-}
-
-// Cambia de sentido cada tiempo marcado por cambioSentido en milisegundos
-function cambiaSentido(){
-	tiempoSentido -= frameTime;
-	if (tiempoSentido < 0) {
-		
-		tiempoSentido = cambioSentido * Math.random();
-		console.log("Cambio de sentido en " + (tiempoSentido/1000) + " s");		
-		for (i = 0; i < nPeces ; i++) {			
-			peces[i].objetivo.velocidadAngular = -peces[i].objetivo.velocidadAngular;			
-		}
-	}
-}
-
-// Mueve el centro en coordenadas absolutas
-function mueveCentro(x,y){
-	for (i = 0; i < nPeces ; i++) {			
-		peces[i].objetivo.centro.posX = x;
-		peces[i].objetivo.centro.posY = y;
-	}
-}
-// Deplaza el centro en coordenadas relativas
-function desplazaCentro(x,y){
-	for (i = 0; i < nPeces ; i++) {			
-		peces[i].objetivo.centro.posX += x;
-		peces[i].objetivo.centro.posY += y;
-	}
-}
-
-
-// Cambia de centro cada tiempo marcado por cambioCentro en milisegundos
-function cambiaCentro(){
-	// Variables locales
-	var deltaX;
-	var deltaY;
-
-	tiempoCentro -= frameTime;
-	if (tiempoCentro < 0) {
-		tiempoCentro = cambioCentro + (cambioCentro * (Math.random() -0.5));		
-		console.log("Cambio de centro en " + (tiempoCentro/1000) + " s");
-		deltaX = (Math.random() - 0.5) * ratioCentro;
-		deltaY = (Math.random() - 0.5) * ratioCentro;
-		desplazaCentro(deltaX, deltaY);
-	}
-}

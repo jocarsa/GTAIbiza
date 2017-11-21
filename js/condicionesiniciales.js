@@ -102,29 +102,11 @@ imagenpajaro2.src = "img/pajaroFor.png";
 
 //---------------------------------------+ PECES
 
-// Se crean los peces
-var nPeces = 300;
-var peces = new Array();
-
-// Cambio de direccion aleatorio
-var cambioDireccion	= 3000;				// Tiempo que tarda en hacer un cambio de dirección del conjunto
-var tiempoDireccion = cambioDireccion;	// Timeout para hacer una cambio de dirección del conjunto
-var ratioDireccion	= 1;				//
-
-// Cambio de radio aleatorio
-var cambioRadio	= 8400;
-var tiempoRadio = cambioRadio;	
-var ratioRadio	= 40;
-
-// Cambio de sentido aleatorio
-var cambioSentido	= 35000;
-var tiempoSentido   = cambioSentido;
-var sentido         = true;
-
-// Cambio de centro aleatorio
-var cambioCentro = 11125;
-var tiempoCentro = cambioRadio;	
-var ratioCentro	 = 50;
+//Objetivo Comun Peces
+var nBancos = 2; //Numero de peces que habra en cada banco
+var objetivosComunes = new Array();
+// Se define el número de peces por banco
+var nPeces = 100;
 
 // Creo el cursor
 var cursor;	

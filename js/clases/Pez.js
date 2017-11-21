@@ -26,15 +26,13 @@ function Pez(){
 	this.rotZ		= 0;
 	this.velocidad	= 0;
 
-	// Clase Pez	
+	// Clase Pez		
 	this.posXOndula = this.posX;	// es la desviación que hay que aplicarle a la posX para conseguir el movimiento ondulatorio
 	this.posYOndula = this.posY;	// es la desviación que hay que aplicarle a la posY para conseguir el movimiento ondulatorio
-	this.velocidadInicial	= 1.1;	//
-	this.bordeColision		= 10; 
+	this.velocidadInicial	= 1.5;	// 
 	
 	// Cambio de direccion aleatorio
-	// !no hace na!
-	this.cambioDireccion	= 2000 + (2000 * Math.random());
+	this.cambioDireccion	= 2000 + ((Math.random() - 0.5) * 2000);
 	this.tiempoDireccion    = this.cambioDireccion;
 	this.ratioDireccion		= 1;
 
@@ -47,29 +45,29 @@ function Pez(){
 	this.cambioSentido		= 10000;
 	this.tiempoSentido    	= this.cambioSentido;
 
-
 	// Cambio de centro aleatoriamente
 	this.cambioCentro	= 1000 * Math.random();
 	this.tiempoCentro   = this.cambioRadio;	
 	this.ratioCentro	= 0;
 	
+	// Cambio de posicion aleatoria del objetivo del pez
+	this.cambioPosicionObjetivo = 1500;
+	this.tiempoPosicionObjetivo = this.cambioPosicionObjetivo;	
+	this.ratioPosicionObjetivo  = 15;
+
+	
 	// Parámetros para huir y perseguir
-	this.temeridad          = 100;
+	this.detectaAmenaza     = 200;
 	this.avistamiento       = 500;
 
-	// Objetivo especial a sequir, que gira dando vueltas a un centro	
-	this.objetivo = new Objetivo();									// Instancia objetivo especial
+	// Objetivo del pez
+	this.objetivo = new ObjetivoPez();								// Instancia objetivo 
 	this.objetivo.posX = 0;											// Coordenada x del objetivo
 	this.objetivo.posY = 0;											// Coordenada y del objetivo
-	this.objetivo.centroRadio = 20 + (Math.random() * 100);			// Distancia al centro del objetivo
-	this.objetivo.velocidadAngular = 65/this.objetivo.centroRadio;	// Velocidad angular rad/s
-	this.objetivo.angulo		 = Math.random() * 2 * Math.PI;		// Angulo inicial del giro del objetivo	
-	this.objetivo.centro.posX = lienzoFinal.width/2;
-	this.objetivo.centro.posY = lienzoFinal.height/2;
-	
+
 	//  Movimiento ondulatorio 
-	this.amplitud       = 0.8;									// Ampliud de onda
-	this.periodo        = 0.7;									// Periodo de la onda
+	this.amplitud       = 1;									// Ampliud de onda
+	this.periodo        = 1;									// Periodo de la onda
 	this.periodo 		= this.periodo/this.velocidadInicial;	// El periodo depende de la velocidad, para acelerar el movimiento ondulatorio
 	this.fase    		=  2 * Math.PI * Math.random(); 		// Angulo inicial de la onda. 0 empieza en el centro
 
@@ -84,6 +82,9 @@ function Pez(){
 	// Variables privadas
 	this.tiempo = 0;	
 	this.dirOndula;	
+	
+	this.timeOutUir= 2000;
+	this.huyendo = false;
 		
 	/************/
 	/* Métodos 	*/
@@ -98,7 +99,7 @@ function Pez(){
 		this.tiempoDireccion = this.cambioDireccion;
 		this.posXOndula = this.posX;
 		this.posYOndula = this.posY;	
-		
+		this.objetivo.constructor();
 
 		// Crea las articulaciones
 		for (var i = 0; i< this.nArticulaciones ; i++){
@@ -133,7 +134,6 @@ function Pez(){
 		this.dimensionesPez[5] = new Array();
 		this.dimensionesPez[5][0] = 0.05;	// % del quinto tramo del pez
 		this.dimensionesPez[5][1] =   0.5;	// Anchura del quinto tramo del pez
-		
 		
 	}
 	/************************************************/
@@ -205,66 +205,60 @@ function Pez(){
 					aColor);
 	}
 		
-	// Dibuja el objetivo que sigue el pez
-	this.dibujaObjetivo = function(aColor){
-		this.objetivo.dibuja(aColor);		
-	}
-
 	/********************************/
 	/* Métodos de movimiento		*/
 	/********************************/
 	
 	// Rebota en los límites del canvas con un borde
-	this.colisionparedes = function(){
+	this.colisionBordes = function(){
 		if(this.posX > lienzoFinal.width)	{this.posX = lienzoFinal.width	; this.rotZ = - (this.rotZ + Math.PI);}
 		if(this.posX < 0)                	{this.posX = 0                	; this.rotZ = - (this.rotZ + Math.PI);}
 		if(this.posY > lienzoFinal.height)	{this.posY = lienzoFinal.height	; this.rotZ = - (this.rotZ);}
 		if(this.posY < 0)					{this.posY = 0    				; this.rotZ = - (this.rotZ);}
 	}
 
-	// Cambia la dirección y aumenta la velocidad cuando está cerca de la posición parametrizada
+	// Huye del punto x, y. Cambia la dirección y aumenta la velocidad cuando está cerca de la posición parametrizada
 	this.huye = function(x, y){
 		
 		var catX = x - this.posX;
 		var catY = y - this.posY;
-		var distancia = Math.sqrt(Math.pow(catX, 2) + Math.pow(catY, 2));
+		var distancia = Math.sqrt(Math.pow(catX, 2) + Math.pow(catY, 2));		
 		
-		//Si la distancia es menor que el límite, cambia de dirección y aumenta la velocidad: huye
-		if (distancia < this.temeridad) {
-			this.rotZ = Math.asin(catY/distancia);								
+		if (distancia < this.detectaAmenaza) {
 			if (catX < 0) {
 				this.rotZ = -this.rotZ;
 			} else {
 				this.rotZ += Math.PI
 			}
-			this.velocidad += 0.3;
+			this.velocidad += 0.02;
 			this.huyendo = true;
+			this.timeOutUir = 2000;
+		} 
+		
+	}
+	
+	// Persigue al objetivo
+	this.persigueObjetivo = function(){
+		if (!this.huyendo){
+			this.persiguePosicion(this.objetivo.posX, this.objetivo.posY);
 		} else{
-			this.huyendo = false;
+			this.timeOutUir -= frameTime;
+			if ( this.timeOutUir < 0){
+				this.huyendo = false;
+			}			
 		}
 	}
 
-	// Hace que el objetivo especial se desplace orbitando alrededor de un centro definido
-	this.mueveObjetivo = function(){
-		// Mueve el objetivo circularmente
-		this.objetivo.mover();				
-	}
-	
-	// Persigue al objetivo especial
-	this.persigueObjetivo = function(){		
-		this.persigue(this.objetivo.posX, this.objetivo.posY);			
-	}
-
 	// Persigue un punto parametrizado
-	this.persigue = function(x,y){
+	this.persiguePosicion = function(x,y){
 		
 		var catX = x - this.posX;
 		var catY = y - this.posY;
 		var distancia = Math.sqrt(Math.pow(catX, 2) + Math.pow(catY, 2));
-
+		
 		// Si está cerca del punto reduce la velocidad un 10%
-		if (distancia < 10) {
-			this.velocidad -= this.velocidad/10;
+		if (distancia < 20) {
+			this.velocidad -= this.velocidad * 0.1;
 		}
 	
 		this.rotZ = anguloEntrePuntos(this.posX,this.posY,x,y);
@@ -272,24 +266,24 @@ function Pez(){
 	
 	// Reajusta la velocidad poco a poco si se ha variado con respecto a la velocidad inicial
 	// por alguna razón. El pez siempre tiende a nadar a su velocidad inicial
-	this.reducirVelocidad = function(){
-	
+	this.controlVelocidad = function(){	
 		if (this.velocidad > this.velocidadInicial){
 			this.velocidad -= 0.01;
 		} else if (this.velocidad < this.velocidadInicial){
-			this.velocidad = this.velocidadInicial;
+			//this.velocidad += 0.1;
+			this.velocidad = this.velocidadInicial
 		}
 	}
 	
 	// Movimiento general actualizando posX posY en función de la velocidad y rotZ
 	this.mover = function(){
-
 		
 		// Calcula la posición 
 		this.posX += Math.cos(this.rotZ) * this.velocidad;	// Actualizo posición x del pez
-		this.posY += Math.sin(this.rotZ) * this.velocidad;	// Actualizo posición y del pez
-	}
+		this.posY += Math.sin(this.rotZ) * this.velocidad;	// Actualizo posición y del pez			
 
+	}
+	
 	// Hace el movimiento ondulatorio y maneja el vector de articulaciones. Cuando calcula la siguiente posición (aritculación),
 	// la guarda en un array que contiene las posiciones de las articulaciones. Estas forman una onda que da el aspecto de 
 	// movimiento ondulatorio.
@@ -331,9 +325,9 @@ function Pez(){
 	this.cambiaDireccion = function(){				
 		this.tiempoDireccion -= frameTime;
 		if (this.tiempoDireccion < 0) {
-			this.tiempoDireccion = this.cambioDireccion;
+			this.tiempoDireccion = 2000 + ((Math.random() - 0.5) * 2000);
 			this.rotZ += (Math.random() - 0.5) * this.ratioDireccion;
-		}
+		}		
 	}
 	
 	// Cambia de radio cada tiempo indicado
@@ -356,7 +350,7 @@ function Pez(){
 		}
 	}
 	
-	// Cambia el centro del movimiento orbital del objetivo especial. 
+	// Cambia el centro del movimiento orbital del objetivo 
 	// El periodo de tiempo  está marcado por this.cambioCentro en milisegundos
 	this.cambiaCentro = function(){				
 		this.tiempoCentro -= frameTime;
@@ -367,18 +361,17 @@ function Pez(){
 		}
 	}
 
+	// Modifica aleatoriamente la posicion del objetivo del pez
+	this.cambiaPosicionObjetivo = function(){
+		
+		this.tiempoPosicionObjetivo -= frameTime;
+		if (this.tiempoPosicionObjetivo < 0) {
+			this.tiempoPosicionObjetivo = this.cambioPosicionObjetivo + ((Math.random() - 0.5) * this.cambioPosicionObjetivo);
+			this.objetivo.posX += this.ratioPosicionObjetivo * Math.cos(2 * Math.PI * Math.random());
+			this.objetivo.posY += this.ratioPosicionObjetivo * Math.sin(2 * Math.PI * Math.random());		
+			
+		}
+		
+	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
