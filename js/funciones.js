@@ -3,22 +3,10 @@
 ////						 	Funciones del mapa											/////
 ////																						/////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function dibujaMapaBonito() {
-	mapaBonito.onload = function() {
-		contexto1.drawImage(mapaBonito, 0, 0);
-		puedesIniciar++;
-	}
-}
 function dibujaMapaPerro(){
 	mapaPerro.onload = function() {
 		contextoPerro.drawImage(mapaPerro, 0, 0);
 		creaPerros();
-		puedesIniciar++;
-	}
-}
-function dibujaMapaCoche(){
-	mapaCoche.onload = function() {
-		contextoCoche.drawImage(mapaCoche, 0, 0);
 		puedesIniciar++;
 	}
 }
@@ -35,12 +23,7 @@ function dibujaMapaPajaro(){
 		puedesIniciar++;
 	}
 }
-function dibujaMapaFinal(){
-	mapaFinal.onload = function() {
-		contextoFinal.drawImage(mapaFinal, 0, 0);
-		puedesIniciar++;
-	}
-}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////																						/////
 ////							Funciones del coche Bot										/////
@@ -102,7 +85,7 @@ function creaPerros(){
 function muevePerro(){
 	limpiaMeos();
 	for (var i = 0; i<numeroMeos; i++){
-		contextoFinal.drawImage(imagenmeo, perroMeos[i].tempx, perroMeos[i].tempy,5,5);
+		contexto1.drawImage(imagenmeo, perroMeos[i].tempx, perroMeos[i].tempy,5,5);
 	}
  	for (var i = 0; i<numeroperros; i++){
 		perro[i].direccion += (Math.random()-0.5) * 0.5;				// Varío el ángulo aleatoriamente
@@ -117,7 +100,7 @@ function muevePerro(){
 		if (color.data[3] == 0) {										// Si el valor de la transparencia es 0 el perro da la vuelta
 			perro[i].direccion += Math.PI;
 		}
-		contextoFinal.drawImage(imagenperro, perro[i].posx, perro[i].posy,16,16);     		
+		contexto1.drawImage(imagenperro, perro[i].posx, perro[i].posy,16,16);     		
 	}
 }
 function buscaPerroMeo(_posx, _posy, iperro){
@@ -148,7 +131,7 @@ function buscaPerroMeo(_posx, _posy, iperro){
 		perroMeos[numeroMeos].tempy = newy;
 		perroMeos[numeroMeos].tiempoDeEsteMeo = caducidadDelMeo;
 		perro[iperro].acabademear = true;
-		contextoFinal.drawImage(imagenmeo,newx,newy,5,5);
+		contexto1.drawImage(imagenmeo,newx,newy,5,5);
 		numeroMeos++;
 		caducidadDelMeo++;
 	}
@@ -304,26 +287,26 @@ function actualizarCocheProtagonista() {
 	cocheProtagonista.barraCombustible.actualizarPorcentaje(cocheProtagonista);
 }
 function drawRotated(radianes) {
-	//contextoFinal.clearRect(0,0,lienzo1.width,lienzo1.height);
+	//contexto1.clearRect(0,0,lienzo1.width,lienzo1.height);
 
 	// save the unrotated context of the canvas so we can restore it later
 	// the alternative is to untranslate & unrotate after drawing
-	contextoFinal.save();
+	contexto1.save();
 	// move to the center of the canvas
-	contextoFinal.translate(cocheProtagonista.posX, cocheProtagonista.posY);
+	contexto1.translate(cocheProtagonista.posX - camara.vistaX, cocheProtagonista.posY - camara.vistaY);
 	// rotate the canvas to the specified degrees
-	contextoFinal.rotate(radianes);
+	contexto1.rotate(radianes);
 	// draw the image
 	// since the context is rotated, the image will be rotated also
-	contextoFinal.drawImage(imagenCoche, -imagenCoche.width / 2, -imagenCoche.height / 2);
+	contexto1.drawImage(imagenCoche, -imagenCoche.width / 2, -imagenCoche.height / 2);
 	// we’re done with the rotating so restore the unrotated context
-	contextoFinal.restore();
+	contexto1.restore();
 }
 function condicionesInicialesCocheProtegonista(){
 	// Condiciones iniciales del coche protagonista
 	cocheProtagonista = new CocheProtagonista();
-	cocheProtagonista.posX									= 350;
-	cocheProtagonista.posY									= 1023;
+	cocheProtagonista.posX									= 550;
+	cocheProtagonista.posY									= 1880;
 	cocheProtagonista.rotZ									= 0;
 	
 	cocheProtagonista.velocidad								= 0;
@@ -404,14 +387,25 @@ function dibujarBarraCombustible() {
 	var anchuraRellenada = Math.ceil((cocheProtagonista.barraCombustible.porcentaje * cocheProtagonista.barraCombustible.anchura) / 100);
 	// Pinto el contorno y el fondo de la barra de combustible en negro
 	// La posición de la barra es relativa a la del cocheProtagonista
-	contextoFinal.fillStyle = "#000000";
-	contextoFinal.fillRect(cocheProtagonista.posX - 16, cocheProtagonista.posY - 21, cocheProtagonista.barraCombustible.anchura + 2, cocheProtagonista.barraCombustible.altura + 2);
+	contexto1.fillStyle = "#000000";
+	contexto1.fillRect(cocheProtagonista.posX - 16 - camara.vistaX, cocheProtagonista.posY - 21 - camara.vistaY, cocheProtagonista.barraCombustible.anchura + 2, cocheProtagonista.barraCombustible.altura + 2);
 	if (cocheProtagonista.barraCombustible.porcentaje < 33) {			// Si el combustible es menor del 33%
-		contextoFinal.fillStyle = "#FF0000";							// Pinto con el color rojo (aviso de que se acaba el combustible)
+		contexto1.fillStyle = "#FF0000";							// Pinto con el color rojo (aviso de que se acaba el combustible)
 	} else {															// Si el combustible es mayor o superior al 33%
-		contextoFinal.fillStyle = "#1F9639";							// Pinto con el color verde
+		contexto1.fillStyle = "#1F9639";							// Pinto con el color verde
 	}
 	// Pinto el relleno de la barra de combustible
 	// La posición de la barra es relativa a la del cocheProtagonista
-	contextoFinal.fillRect(cocheProtagonista.posX - 15, cocheProtagonista.posY - 20, anchuraRellenada, cocheProtagonista.barraCombustible.altura);
+	contexto1.fillRect(cocheProtagonista.posX - 15- camara.vistaX, cocheProtagonista.posY - 20 - camara.vistaY, anchuraRellenada, cocheProtagonista.barraCombustible.altura);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////																						/////
+////						 	Funciones de la cámara										/////
+////																						/////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function situarCamara() {
+	camara = new Camara(0, 0, lienzo1.width, lienzo1.height, anchuraMapa, alturaMapa);
+	camara.seguirObjeto(cocheProtagonista, lienzo1.width / 2, lienzo1.height / 2);
 }

@@ -8,12 +8,11 @@
 	</head>
 	<body>
 		<div id="contenedor">
-			<canvas id="lienzo1" width="1068px" height="1068px"></canvas>
-			<canvas id="lienzoCoche" width="1068px" height="1068px"></canvas>
+			<canvas id="lienzo1" width="500px" height="500px"></canvas>
+			<canvas id="lienzoCoche" width="7552px" height="4224px"></canvas>
 			<canvas id="lienzoPerro" width="1068px" height="1068px"></canvas>
 			<canvas id="lienzoPlanta" width="1068px" height="1068px"></canvas>
 			<canvas id="lienzoPajaro" width="1068px" height="1068px"></canvas>
-			<canvas id="lienzoFinal" width="1068px" height="1068px"></canvas>
 		</div>
 		<div id="interfazUsuario">
 			<br><br>
@@ -48,22 +47,30 @@
 		<!-- Importación de librerías  -->
 		<script src="lib/jquery.js"></script>
 		<script src="js/funciones.js"></script>
+		
 		<!-- Importación de clases y jerarquías -->
 		<script src="js/clases/Actor.js"></script>
-			<script src="js/clases/PerroMeo.js"></script>
 			<script src="js/clases/Animado.js"></script>
-			<script src="js/clases/Arbol.js"></script>
+				<script src="js/clases/Vehiculo.js"></script>
+					<script src="js/clases/Terrestre.js"></script>
+						<script src="js/clases/Motorizado.js"></script>
+							<script src="js/clases/Coche.js"></script>
+								<script src="js/clases/CocheProtagonista.js"></script>
 				<script src="js/clases/Perro.js"></script>
-					<script src="js/clases/Vehiculo.js"></script>
-						<script src="js/clases/Terrestre.js"></script>
-							<script src="js/clases/Motorizado.js"></script>
-								<script src="js/clases/Coche.js"></script>
-								<script src="js/clases/Pajaro.js"></script>
-									<script src="js/clases/BotObjeto.js"></script>
-									<script src="js/clases/CocheProtagonista.js"></script>
+				<script src="js/clases/Pajaro.js"></script>
+			<script src="js/clases/PerroMeo.js"></script>
+			<script src="js/clases/Arbol.js"></script>
 			<script src="js/clases/Interfaz.js"></script>
 				<script src="js/clases/InterfazBarra.js"></script>
 					<script src="js/clases/InterfazBarraCombustible.js"></script>
+		<script src="js/clases/BotObjeto.js"></script>
+		
+		<!-- Importación de clases para el desfase (offset) -->
+		<script src="js/clases/Rectangulo.js"></script>
+		<script src="js/clases/Camara.js"></script>
+		<script src="js/clases/Mapa.js"></script>
+		
+		<!-- Script del juego -->
 		<script src="js/bucle.js"></script>
 		<script src="js/inicio.js"></script>
 		<script src="js/condicionesiniciales.js"></script>

@@ -1,8 +1,10 @@
 function bucle(){
-	contextoFinal.clearRect(0, 0, lienzoFinal.width, lienzoFinal.height);
+	contexto1.clearRect(0, 0, lienzo1.width, lienzo1.height);
 	
 	//---------------------------------------+ MAPAS
-	dibujaMapaFinal();
+	//dibujaMapaBonito();
+	mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
+	//contexto1.drawImage(mapaBonito, 0, 0);
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ PERROS
@@ -25,6 +27,7 @@ function bucle(){
 	//---------------------------------------+ COCHE PROTAGONISTA
 	// Actualizo el coche del protagonista
 	actualizarCocheProtagonista();
+	camara.actualizar();
 	//---------------------------------------+
 	
 	//---------------------------------------+ PLANTAS
