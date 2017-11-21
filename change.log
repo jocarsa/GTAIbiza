@@ -1,1 +1,6 @@
 <!-- Version 0.1-->
+-Policia persigue a coche protagonista.
+-Se ha añadido un pequeño mapa para ver por donte te va persiguiendo.
+-Se ha puesto una UI de estados.
+-Cada vez que te pille te quitan 1000 dolares de 3000.
+-Se ha cambiado el game over. Ahora si no tienes dinero pierdes y si te escapas te recarga gasolina.
