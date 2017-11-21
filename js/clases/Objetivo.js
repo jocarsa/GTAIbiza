@@ -107,7 +107,7 @@ function Objetivo(){
 		if (this.tiempoRadio < 0) {
 			this.tiempoRadio = this.cambioRadio + ((Math.random() - 0.5) * this.cambioRadio);
 			// Varia ligeramente el radio de forma aleatoria para todos los peces del banco
-			console.log("Cambio radio " + (this.tiempoRadio/1000).toFixed(2) + " s");
+			//console.log("Cambio radio " + (this.tiempoRadio/1000).toFixed(2) + " s");
 			for (var i= 0 ; i < nPeces ; i++) {
 				this.peces[i].objetivo.centroRadio += this.ratioRadio * (Math.random() - 0.5);
 			}			
@@ -122,7 +122,7 @@ function Objetivo(){
 		this.tiempoSentido -= frameTime;
 		if (this.tiempoSentido < 0) {
 			this.tiempoSentido = this.cambioSentido + ((Math.random() - 0.5) * this.cambioSentido);
-			console.log("Cambio sentido en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
+			//console.log("Cambio sentido en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
 			for (var i= 0 ; i < nPeces ; i++) {
 				this.peces[i].objetivo.velocidadAngular = -this.peces[i].objetivo.velocidadAngular;
 			}			
@@ -146,7 +146,7 @@ function Objetivo(){
 			// Cambia la posicion del objetivo
 			this.posX += x;
 			this.posY += x;
-			console.log("Cambio posición en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
+			//console.log("Cambio posición en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
 			// Cambia el centro de los objetivos de los peces para el movimiento circular
 			for (var i= 0 ; i < nPeces ; i++) {
 				this.peces[i].objetivo.centro.posX += x;
@@ -179,7 +179,7 @@ function Objetivo(){
 			this.tiempoDireccion = this.cambioDireccion + (this.cambioDireccion * (Math.random() -0.5));
 			// Se calcula la variación de la dirección, que será aplicada a todos los elementos
 			deltaDir = (Math.random() - 0.5) * this.ratioDireccion;
-			console.log("Cambio direccion en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
+			//console.log("Cambio direccion en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
 			// Aplicamos el mismo cambio de dirección a todos los elementos
 			for (var i = 0; i < nPeces ; i++) {			
 				this.peces[i].rotZ += deltaDir; // No funciona
@@ -194,7 +194,7 @@ function Objetivo(){
 		if ((this.tiempoObjetivos < 0)) {			
 			this.tiempoObjetivos = this.cambioObjetivos + ((Math.random() - 0.5) * this.cambioObjetivos);
 			// Genera una nube de posiciones de los peces alrededor de la posición del objetivo
-			console.log("Cambio objetivos en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
+			//console.log("Cambio objetivos en " + (this.tiempoObjetivos/1000).toFixed(2) + " s");
 			for (var i= 0 ; i < nPeces ; i++) {
 				this.peces[i].objetivo.posX = this.posX + (this.ratioObjetivos * Math.cos(2 * Math.PI * Math.random()));
 				this.peces[i].objetivo.posY = this.posY + (this.ratioObjetivos * Math.sin(2 * Math.PI * Math.random()));			

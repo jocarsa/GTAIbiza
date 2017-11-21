@@ -34,9 +34,7 @@ function ObjetivoPez(){
 		this.centroRadio		= 20 + (Math.random() * 80);	// Distancia al centro del objetivo
 		this.velocidadAngular	= 60/this.centroRadio;	// Velocidad angular rad/s
 		this.angulo		 		= Math.random() * 2 * Math.PI;	// Angulo inicial del giro del objetivo	
-		this.centro.posX 		= lienzoFinal.width/2;
-		this.centro.posY 		= lienzoFinal.height/2;	
-
+		this.centrar();		
 	}
 
 	// Mueve un objetivo circularmente
@@ -50,6 +48,11 @@ function ObjetivoPez(){
 	
 	this.dibuja = function(aColor){
 		dibujaRectangulo(this.posX, this.posY, 2, 2 ,aColor,"F");
+	}
+	
+	this.centrar = function(){  
+		this.centro.posX   = this.posX;
+		this.centro.posY   = this.posY;   
 	}
 }
 

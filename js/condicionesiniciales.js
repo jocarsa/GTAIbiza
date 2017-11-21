@@ -111,6 +111,14 @@ var nPeces = 100;
 // Creo el cursor
 var cursor;	
 
+//Cargar Sprite del tiburon
+var imgTiburon = new Image();
+imgTiburon.src = "img/SStiburon.png";
+//Declaramos un tiburon
+var tiburon = new Tiburon();
+//Iniciamos Conteo del SpriteSheet del Tiburon
+var sx = 0;
+var sy = 0;
 
 
 //---------------------------------------+ PAJAROS

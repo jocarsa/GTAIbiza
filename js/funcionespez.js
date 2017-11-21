@@ -22,17 +22,15 @@ function valoresInicialesPez(){
 														(objetivosComunes[i].peces[j].ratioPosicionObjetivo * Math.cos(2 * Math.PI * Math.random()));
 			objetivosComunes[i].peces[j].objetivo.posY = objetivosComunes[i].posY + 
 														(objetivosComunes[i].peces[j].ratioPosicionObjetivo * Math.sin(2 * Math.PI * Math.random()));
+			objetivosComunes[i].peces[j].objetivo.centrar();
 		}
-		
-		
-		
-		
-		
-		/*objetivosComunes[i].setPosicion(200 + ((lienzoFinal.width - 200) * Math.random()),
-										200 + ((lienzoFinal.height -200) * Math.random()));		*/
-		//objetivosComunes[i].setPosicion(500,500)
-	}	
+	}
 	
+	//Damos valores iniciales al tiburon
+	tiburon.posX = 0;
+	tiburon.posY = 500;
+	tiburon.rotZ = 0; //Math.random()*2*Math.PI;
+	tiburon.velocidad = 3;
 	
 }
 
@@ -61,7 +59,7 @@ function eventosPez(){
 function actualizarPez() {
 
 	// Banco de peces 0: forma lineal
-	//objetivosComunes[0].dibuja('yellow');
+	objetivosComunes[0].dibuja('yellow');
 	objetivosComunes[0].moverLinealmente();
 	objetivosComunes[0].colisionBordes();
 	//objetivosComunes[0].cambiaDireccion(); // No funciona si sigue a un objetivo
@@ -85,9 +83,8 @@ function actualizarPez() {
 		//objetivosComunes[0].peces[i].dibujaPosicion("red");
 	}	
 
-	// Banco de peces 0: forma circular
-	//objetivosComunes[1].dibuja('yellow');
-	objetivosComunes[1].moverLinealmente();
+	// Banco de peces 1: forma circular
+	objetivosComunes[1].dibuja('yellow');
 	objetivosComunes[1].colisionBordes();
 	//objetivosComunes[1].cambiaDireccion(); // No funciona si sigue a un objetivo
 	//objetivosComunes[1].cambiaPosicion();
@@ -113,6 +110,13 @@ function actualizarPez() {
 		//objetivosComunes[1].peces[i].dibujaPosicion("red");
 	}	
 		
+	//Mover el tiburon
+	tiburon.comportamientoTiburon();
+	tiburon.colisionBordes();
+	tiburon.controlVelocidad();
+	tiburon.mover();
+	//Animacion del Tiburon. Lo pintamos y actualizamos sprite
+	tiburon.animar(imgTiburon);
 	
 }
 
