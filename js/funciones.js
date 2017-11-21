@@ -5,7 +5,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function dibujaMapaBonito() {
 	mapaBonito.onload = function() {
-		contexto1.drawImage(mapaBonito, 0, 0);
+		//contexto1.drawImage(mapaBonito, 0, 0);
+		contexto1.drawImage(mapaPeces, 0, 0);
+		
 		puedesIniciar++;
 	}
 }
@@ -32,6 +34,12 @@ function dibujaMapaPajaro(){
 	mapaPajaro.onload = function() {
 		contextoPajaro.drawImage(mapaPajaro, 0, 0);
 		creacionPajaros();
+		puedesIniciar++;
+	}
+}
+function dibujaMapaPeces(){
+	mapaPeces.onload = function() {
+		contextoPeces.drawImage(mapaPeces, 0, 0);
 		puedesIniciar++;
 	}
 }
@@ -415,3 +423,9 @@ function dibujarBarraCombustible() {
 	// La posición de la barra es relativa a la del cocheProtagonista
 	contextoFinal.fillRect(cocheProtagonista.posX - 15, cocheProtagonista.posY - 20, anchuraRellenada, cocheProtagonista.barraCombustible.altura);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+////																						/////
+////				Funciones de los peces. Están en funcionespez.js						/////
+////																						/////
+/////////////////////////////////////////////////////////////////////////////////////////////////

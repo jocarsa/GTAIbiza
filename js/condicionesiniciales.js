@@ -1,3 +1,5 @@
+const frameTime     = 33;
+
 // Lienzos
 var lienzo1 = document.getElementById("lienzo1");
 var contexto1 = lienzo1.getContext("2d");
@@ -9,6 +11,8 @@ var lienzoPlanta = document.getElementById("lienzoPlanta");
 var contextoPlanta = lienzoPlanta.getContext("2d");
 var lienzoPajaro = document.getElementById("lienzoPajaro");
 var contextoPajaro = lienzoPajaro.getContext("2d");
+var lienzoPeces = document.getElementById("lienzoPeces");
+var contextoPeces = lienzoPajaro.getContext("2d");
 var lienzoFinal = document.getElementById("lienzoFinal");
 var contextoFinal =  lienzoFinal.getContext("2d");
 var temporizador;
@@ -25,6 +29,8 @@ var mapaPlanta = new Image();
 mapaPlanta.src = "img/ciudadplanta.png";
 var mapaPajaro = new Image();
 mapaPajaro.src = "img/ciudadpajaro.png";
+var mapaPeces = new Image();
+mapaPeces.src = "img/ciudadpeces.png";
 var mapaFinal = new Image();
 mapaFinal.src = "img/mapaFinal.png";
 
@@ -97,5 +103,28 @@ imagenpajaroP.src = "img/pajaroposando.png";
 var imagenpajaro2 = new Image();
 imagenpajaro2.src = "img/pajaroFor.png";
 //---------------------------------------+
+
+//---------------------------------------+ PECES
+
+//Objetivo Comun Peces
+var nBancos = 2; //Numero de peces que habra en cada banco
+var objetivosComunes = new Array();
+// Se define el número de peces por banco
+var nPeces = 100;
+
+// Creo el cursor
+var cursor;	
+
+//Cargar Sprite del tiburon
+var imgTiburon = new Image();
+imgTiburon.src = "img/SStiburon.png";
+//Declaramos un tiburon
+var tiburon = new Tiburon();
+//Iniciamos Conteo del SpriteSheet del Tiburon
+var sx = 0;
+var sy = 0;
+
+
+//---------------------------------------+ PAJAROS
 
 inicio();
