@@ -1,16 +1,18 @@
 function bucle(){
-	contextoFinal.clearRect(0, 0, lienzoFinal.width, lienzoFinal.height);
+	contexto1.clearRect(0, 0, lienzo1.width, lienzo1.height);
 	
 	//---------------------------------------+ MAPAS
-	dibujaMapaFinal();
+	//dibujaMapaBonito();
+	mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
+	//contexto1.drawImage(mapaBonito, 0, 0);
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ PERROS
-	muevePerro();
+	//muevePerro();
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ COCHE BOT
-	bot1.player();
+	/*bot1.player();
 	bot2.player();
 	bot3.player();
 	bot4.player();
@@ -19,23 +21,27 @@ function bucle(){
 	bot7.player();
 	bot8.player();
 	bot9.player();
-	bot10.player();
+	bot10.player();*/
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ COCHE PROTAGONISTA
 	// Actualizo el coche del protagonista
 	actualizarCocheProtagonista();
+	camara.actualizar();
 	//---------------------------------------+
 	
 	//---------------------------------------+ PLANTAS
-		if(contadorCreacionArboles % 10 == 0) {generarArboles();}
-	contadorCreacionArboles++;
+		/*if(contadorCreacionArboles % 10 == 0) {generarArboles();}
+	contadorCreacionArboles++;*/
 	//---------------------------------------+ 
 	
 	//---------------------------------------+ PAJAROS
-	movimientoPajaros();
+	//movimientoPajaros();
 	//---------------------------------------+
 	
+	//---------------------------------------+ POLICIA
+	TWEEN.update();
+	//---------------------------------------+
 	
 	if (gameOver == true)  {
 		$("#gameOver").show(); 

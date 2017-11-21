@@ -83,7 +83,7 @@ function Motorizado() {
 		if (Math.abs(this.velocidad) < this.rozamiento) {
 			this.velocidad = 0;
 			if(this.combustible == 0) {
-				gameOver = true;
+				//gameOver = true;
 			}
 		}
 		// Se actualiza el consumo de combustible

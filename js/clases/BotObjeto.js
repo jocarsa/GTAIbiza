@@ -24,22 +24,22 @@ var botObj = function(ini,dir,colorD,colorI,colorARRB,colorABJ){				//nodo de do
 		if(posPx[nodoPrimario]>posPx[nodoActual]){	
 			this.posX-=Math.cos(this.rotZ);
 			this.posY-=Math.sin(this.rotZ);
-			contextoFinal.drawImage(cocheBotI,this.posX,this.posY,15,15);
+			contexto1.drawImage(cocheBotI,this.posX,this.posY,15,15);
 		}
 		if(posPy[nodoPrimario]<posPy[nodoActual]){	
 			this.posX+=Math.cos(this.rotZ);
 			this.posY+=Math.sin(this.rotZ);
-			contextoFinal.drawImage(cocheBotAb,this.posX,this.posY,15,15);
+			contexto1.drawImage(cocheBotAb,this.posX,this.posY,15,15);
 		}
 		if(posPx[nodoPrimario]<posPx[nodoActual]){	
 			this.posX+=Math.cos(this.rotZ);
 			this.posY+=Math.sin(this.rotZ);
-			contextoFinal.drawImage(cocheBot,this.posX,this.posY,15,15);
+			contexto1.drawImage(cocheBot,this.posX,this.posY,15,15);
 		}
 		if(posPy[nodoPrimario]>posPy[nodoActual]){	
 			this.posX+=Math.cos(this.rotZ);
 			this.posY+=Math.sin(this.rotZ);
-			contextoFinal.drawImage(cocheBotAr,this.posX,this.posY,15,15);	
+			contexto1.drawImage(cocheBotAr,this.posX,this.posY,15,15);	
 		}
 		if(this.posX==posPx[nodoActual] && this.posY==posPy[nodoActual]){
 			this.posX=posPx[nodoActual];										//recoloco bot para que no almacene decimas de error

@@ -8,16 +8,20 @@
 	</head>
 	<body>
 		<div id="contenedor">
-			<canvas id="lienzo1" width="1068px" height="1068px"></canvas>
-			<canvas id="lienzoCoche" width="1068px" height="1068px"></canvas>
+			<canvas id="lienzo1" width="500px" height="500px"></canvas>
+			<canvas id="lienzoCoche" width="7552px" height="4224px"></canvas>
 			<canvas id="lienzoPerro" width="1068px" height="1068px"></canvas>
 			<canvas id="lienzoPlanta" width="1068px" height="1068px"></canvas>
 			<canvas id="lienzoPajaro" width="1068px" height="1068px"></canvas>
-			<canvas id="lienzoFinal" width="1068px" height="1068px"></canvas>
+			
+			<canvas id="lienzoCoche2" width="118px" height="118px"></canvas>
+			<canvas id="lienzoFinal2" width="500px" height="500px"></canvas>
+			<canvas id="lienzoUI" width="118px" height="118px"></canvas>
+			
 		</div>
 		<div id="interfazUsuario">
 			<br><br>
-			<h2>GTA Programación de videojuegos Semana 2.</h2>
+			<h2>GTA Programación de videojuegos Semana 3.</h2>
 			<br>
 			<h1>Una implementación básica de una ciudad corriente.</h1>
 			<br>
@@ -30,7 +34,8 @@
 			<h1>-Controlamos el coche con los botones W,A,S,D y SPACE(nitro)</h1><br>
 			<h1>-El coche dispone de combustible, si se acaba pierdes. </h1><br>
 			<h1>-Para repostar debes ir a la gasolinera situada a la izquierda del mapa,</h1><br>
-			<h1>en el edificio que pone GAS, o situarte en el parking del restaurante.</h1>
+			<h1>en el edificio que pone GAS, o situarte en el parking del restaurante.</h1><br>
+			<h1>-No te olvides de que la policia va a por ti...</h1>
 			<button id="cerrar" align="center">Volver</button>
 			<br><br><br><br>
 			<div id="imagenesInstrucciones">
@@ -42,28 +47,38 @@
 			<br><br><br><br><br><br>
 			<h3>GAME OVER</h3>
 			<br><br><br><br><br><br><br>
-			<h4>Te has quedado sin gasolina</h4>
+			<h4>Te ha detenido la policia</h4>
 			<button id="botonReiniciarJuego">Reiniciar juego</button>
 		</div>
 		<!-- Importación de librerías  -->
 		<script src="lib/jquery.js"></script>
+		<script src="lib/Tween.js"></script>
 		<script src="js/funciones.js"></script>
+		
 		<!-- Importación de clases y jerarquías -->
 		<script src="js/clases/Actor.js"></script>
-			<script src="js/clases/PerroMeo.js"></script>
 			<script src="js/clases/Animado.js"></script>
-			<script src="js/clases/Arbol.js"></script>
+				<script src="js/clases/Vehiculo.js"></script>
+					<script src="js/clases/Terrestre.js"></script>
+						<script src="js/clases/Motorizado.js"></script>
+							<script src="js/clases/Coche.js"></script>
+								<script src="js/clases/CocheProtagonista.js"></script>
+								<script src="js/clases/CochePolicia.js"></script>
 				<script src="js/clases/Perro.js"></script>
-					<script src="js/clases/Vehiculo.js"></script>
-						<script src="js/clases/Terrestre.js"></script>
-							<script src="js/clases/Motorizado.js"></script>
-								<script src="js/clases/Coche.js"></script>
-								<script src="js/clases/Pajaro.js"></script>
-									<script src="js/clases/BotObjeto.js"></script>
-									<script src="js/clases/CocheProtagonista.js"></script>
+				<script src="js/clases/Pajaro.js"></script>
+			<script src="js/clases/PerroMeo.js"></script>
+			<script src="js/clases/Arbol.js"></script>
 			<script src="js/clases/Interfaz.js"></script>
 				<script src="js/clases/InterfazBarra.js"></script>
 					<script src="js/clases/InterfazBarraCombustible.js"></script>
+		<script src="js/clases/BotObjeto.js"></script>
+		
+		<!-- Importación de clases para el desfase (offset) -->
+		<script src="js/clases/Rectangulo.js"></script>
+		<script src="js/clases/Camara.js"></script>
+		<script src="js/clases/Mapa.js"></script>
+		
+		<!-- Script del juego -->
 		<script src="js/bucle.js"></script>
 		<script src="js/inicio.js"></script>
 		<script src="js/condicionesiniciales.js"></script>
