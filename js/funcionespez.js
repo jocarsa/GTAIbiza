@@ -30,7 +30,7 @@ function valoresInicialesPez(){
 	tiburon.posX = 0;
 	tiburon.posY = 500;
 	tiburon.rotZ = 0; //Math.random()*2*Math.PI;
-	tiburon.velocidad = 3;
+	tiburon.velocidad = 1.6;
 	
 }
 
@@ -72,15 +72,19 @@ function actualizarPez() {
 		//objetivosComunes[0].peces[i].objetivo.moverCircularmente();
 		objetivosComunes[0].peces[i].ondula();								
 		
+		objetivosComunes[0].peces[i].huye(tiburon.posX,tiburon.posY);
+		
 		objetivosComunes[0].peces[i].colisionBordes();					
-		objetivosComunes[0].peces[i].persigueObjetivo();			
+		objetivosComunes[0].peces[i].persigueObjetivo();		
 		objetivosComunes[0].peces[i].controlVelocidad();
 		//objetivosComunes[0].peces[i].cambiaDireccion(); // No funciona cuando persigue un objetivo
 		objetivosComunes[0].peces[i].cambiaPosicionObjetivo();
 		//objetivosComunes[0].peces[i].huye(500,500);		
-		//objetivosComunes[0].peces[i].objetivo.dibuja("blue");			
+		objetivosComunes[0].peces[i].objetivo.dibuja("blue");			
 		//objetivosComunes[0].peces[i].dibujaVelocidad("red");
 		//objetivosComunes[0].peces[i].dibujaPosicion("red");
+		//dibujaRectangulo(tiburon.posX,tiburon.posY,20,20,"blue");
+		
 	}	
 
 	// Banco de peces 1: forma circular
@@ -98,6 +102,8 @@ function actualizarPez() {
 		objetivosComunes[1].peces[i].objetivo.moverCircularmente();
 		objetivosComunes[1].peces[i].ondula();				
 		
+		objetivosComunes[1].peces[i].huye(tiburon.posX,tiburon.posY);
+		
 		objetivosComunes[1].peces[i].colisionBordes();					
 		objetivosComunes[1].peces[i].persigueObjetivo();			
 		objetivosComunes[1].peces[i].controlVelocidad();
@@ -105,11 +111,11 @@ function actualizarPez() {
 		//objetivosComunes[1].peces[i].cambiaPosicionObjetivo();
 		objetivosComunes[1].peces[i].cambiaRadio();
 		//objetivosComunes[1].peces[i].huye(500,500);		
-		//objetivosComunes[1].peces[i].objetivo.dibuja("blue");			
+		objetivosComunes[1].peces[i].objetivo.dibuja("blue");			
 		//objetivosComunes[1].peces[i].dibujaVelocidad("red");
 		//objetivosComunes[1].peces[i].dibujaPosicion("red");
 	}	
-		
+
 	//Mover el tiburon
 	tiburon.comportamientoTiburon();
 	tiburon.colisionBordes();
@@ -117,6 +123,7 @@ function actualizarPez() {
 	tiburon.mover();
 	//Animacion del Tiburon. Lo pintamos y actualizamos sprite
 	tiburon.animar(imgTiburon);
+	dibujaRectangulo(tiburon.posX,tiburon.posY , 10, 10 );
 	
 }
 

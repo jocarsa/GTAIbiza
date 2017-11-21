@@ -29,7 +29,8 @@ function Pez(){
 	// Clase Pez		
 	this.posXOndula = this.posX;	// es la desviación que hay que aplicarle a la posX para conseguir el movimiento ondulatorio
 	this.posYOndula = this.posY;	// es la desviación que hay que aplicarle a la posY para conseguir el movimiento ondulatorio
-	this.velocidadInicial	= 1.5;	// 
+	this.velocidadInicial	= 1;	// 
+	this.velocidadMax       = 3;
 	
 	// Cambio de direccion aleatorio
 	this.cambioDireccion	= 2000 + ((Math.random() - 0.5) * 2000);
@@ -83,7 +84,7 @@ function Pez(){
 	this.tiempo = 0;	
 	this.dirOndula;	
 	
-	this.timeOutUir= 2000;
+	this.timeOutUir= this.timeOutUir = 1000 + (Math.random() * 1000);
 	this.huyendo = false;
 		
 	/************/
@@ -218,37 +219,42 @@ function Pez(){
 	}
 
 	// Huye del punto x, y. Cambia la dirección y aumenta la velocidad cuando está cerca de la posición parametrizada
-	this.huye = function(x, y){
+	this.huye = function(x,y){
 		
 		var catX = x - this.posX;
 		var catY = y - this.posY;
-		var distancia = Math.sqrt(Math.pow(catX, 2) + Math.pow(catY, 2));		
+		var distancia = Math.sqrt(Math.pow(catX, 2) + Math.pow(catY, 2));
 		
-		if (distancia < this.detectaAmenaza) {
-			if (catX < 0) {
-				this.rotZ = -this.rotZ;
-			} else {
-				this.rotZ += Math.PI
+		// Si está cerca del punto reduce la velocidad un 10%
+		if (distancia < (100 + (Math.random() * 50))) {
+			if (this.velocidad < this.velocidadMax) {
+				this.velocidad +=  0.05;
+				this.huyendo = true;
+				this.rotZ = Math.PI + anguloEntrePuntos(this.posX,this.posY,x,y);
+				this.timeOutUir = 1000 + (Math.random() * 1000);
 			}
-			this.velocidad += 0.02;
-			this.huyendo = true;
-			this.timeOutUir = 2000;
-		} 
-		
+			//console.log("huye");
+		} else {
+			//this.huyendo = false;
+			//console.log("no huye");
+		}		
 	}
-	
+
 	// Persigue al objetivo
 	this.persigueObjetivo = function(){
 		if (!this.huyendo){
-			this.persiguePosicion(this.objetivo.posX, this.objetivo.posY);
-		} else{
+			this.persiguePosicion(this.objetivo.posX, this.objetivo.posY);			
+		}
+		else{			
 			this.timeOutUir -= frameTime;
 			if ( this.timeOutUir < 0){
 				this.huyendo = false;
-			}			
+				this.timeOutUir = 1000 + (Math.random() * 1000);
+			}
 		}
+			
 	}
-
+	
 	// Persigue un punto parametrizado
 	this.persiguePosicion = function(x,y){
 		
@@ -268,9 +274,8 @@ function Pez(){
 	// por alguna razón. El pez siempre tiende a nadar a su velocidad inicial
 	this.controlVelocidad = function(){	
 		if (this.velocidad > this.velocidadInicial){
-			this.velocidad -= 0.01;
-		} else if (this.velocidad < this.velocidadInicial){
-			//this.velocidad += 0.1;
+			this.velocidad -= 0.01;			
+		} else if (this.velocidad < this.velocidadInicial){			
 			this.velocidad = this.velocidadInicial
 		}
 	}

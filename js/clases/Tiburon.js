@@ -2,8 +2,8 @@ Tiburon.prototype = new Pez(); // Tiburon hereda de pez
 
 function Tiburon(){
 	//Propiedades
-		this.velocidad = 3;
-		this.velocidadInicial = 3;
+		this.velocidad = 1.1;
+		this.velocidadInicial = 1.1;
 		
 		this.indicepresa;
 		this.indicebanco;
@@ -45,15 +45,16 @@ function Tiburon(){
 						this.indicebanco = i;
 						this.indicepresa = j;
 						this.cazando = true;
-						this.nadando = false;
-					}
+						this.nadando = false;						
+					}						
+					
 				}
 			}
 		}
 
 		//Cuando encuentra pez, lo persigue durante un tiempo; aumenta la velocidad
 		this.cazarPez = function () {
-			this.velocidad = 2*this.velocidadInicial;
+			this.velocidad =  2 * this.velocidadInicial;
 			presax = objetivosComunes[this.indicebanco].peces[this.indicepresa].posX;
 			presay = objetivosComunes[this.indicebanco].peces[this.indicepresa].posY;
 			this.rotZ = anguloEntrePuntos(this.posX, this.posY, presax, presay);
@@ -76,7 +77,8 @@ function Tiburon(){
 				this.tiempocaza = 0;
 				this.descansando = true;
 				this.cazando = false;
-			}
+			}			
+			
 		}
 
 		//Al terminar de cazar el tiburon no persigue ni busca ningun pez durante un tiempo
@@ -94,16 +96,16 @@ function Tiburon(){
 			if(this.nadando) {
 				//this.cambiarAngulo();
 				this.buscapez();
-				console.log("Estoy nadando");
+				//console.log("Estoy nadando");
 			}
 			if(this.cazando) {
 				this.cazarPez();
-				console.log("Estoy cazando");
+				//console.log("Estoy cazando");
 			}
 			if(this.descansando) {
 				//this.cambiarAngulo();
 				this.descansar();
-				console.log("Estoy descansando");
+				//console.log("Estoy descansando");
 			}
 		}
 		
@@ -116,10 +118,9 @@ function Tiburon(){
 		this.animar = function(imagen) {
 			contextoFinal.save();
 			contextoFinal.translate(this.posX+this.sw/2, this.posY+this.sh/2);
-			contextoFinal.rotate(this.rotZ+Math.PI*0.5);
-			contextoFinal.drawImage(imagen, sx*this.sw,sy*this.sh, this.sw,this.sh, -this.sw/2,-this.sh/2, this.sw,this.sh);
-			contextoFinal.restore();
-			
+			contextoFinal.rotate(this.rotZ + Math.PI * 0.5);
+			contextoFinal.drawImage(imagen, sx*this.sw,sy*this.sh, this.sw,this.sh, -this.sw/2,-this.sh/2, this.sw * 0.7,this.sh * 0.7);
+			contextoFinal.restore();			
 			this.animacionVelocidad();						//Actualizamos el tiempo de animacion segun velocidad
 			this.contador++;
 			if (this.contador >= Math.floor(this.tiempoanimacion/(this.spriteC*this.spriteF)*(1/frameTime))) {

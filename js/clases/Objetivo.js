@@ -48,7 +48,7 @@ function Objetivo(){
 		this.posX		= Math.random() * lienzoFinal.width;
 		this.posY		= Math.random() * lienzoFinal.height;
 		this.rotZ		= Math.random() * 2 * Math.PI;
-		this.velocidad	= 1.55;		
+		this.velocidad	= 1.1;		
 		
 	}
 
