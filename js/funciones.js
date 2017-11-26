@@ -3,24 +3,10 @@
 ////						 	Funciones del mapa											/////
 ////																						/////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function dibujaMapaBonito() {
-	mapaBonito.onload = function() {
-		//contexto1.drawImage(mapaBonito, 0, 0);
-		contexto1.drawImage(mapaPeces, 0, 0);
-		
-		puedesIniciar++;
-	}
-}
 function dibujaMapaPerro(){
 	mapaPerro.onload = function() {
 		contextoPerro.drawImage(mapaPerro, 0, 0);
 		creaPerros();
-		puedesIniciar++;
-	}
-}
-function dibujaMapaCoche(){
-	mapaCoche.onload = function() {
-		contextoCoche.drawImage(mapaCoche, 0, 0);
 		puedesIniciar++;
 	}
 }
@@ -37,18 +23,7 @@ function dibujaMapaPajaro(){
 		puedesIniciar++;
 	}
 }
-function dibujaMapaPeces(){
-	mapaPeces.onload = function() {
-		contextoPeces.drawImage(mapaPeces, 0, 0);
-		puedesIniciar++;
-	}
-}
-function dibujaMapaFinal(){
-	mapaFinal.onload = function() {
-		contextoFinal.drawImage(mapaFinal, 0, 0);
-		puedesIniciar++;
-	}
-}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////																						/////
 ////							Funciones del coche Bot										/////
@@ -57,7 +32,25 @@ function dibujaMapaFinal(){
 function hallarAngulo(x1,y1,x2,y2){				//hayo el angulo con referencia el eje x de un punto a otro
 	var m=(y2-y1)/(x2-x1);
 	angulo=Math.atan(m);
-	return angulo;                               //me retorna el valor que es el angulo calculado 
+	return angulo;                               //me retorna el valor que es el angulo calculado
+}
+function losPuntos(){										//pintar los puntos
+	contexto1.fillStyle="red"
+	for(var i=0;i<posPx.length;i++){
+		contexto1.beginPath();
+		contexto1.fillStyle="red"							//los puntos de color rojo
+		contexto1.arc(posPx[i]-camara.vistaX,posPy[i]-camara.vistaY,5,0,2*Math.PI);		//pinto un punto
+		contexto1.fill();
+		contexto1.beginPath();
+		contexto1.fillStyle="white"							//los numeros de color negro
+		//contexto1.fillText(i+" posicion x:"+posPx[i]+"; posicion y:"+posPy[i],posPx[i]-camara.vistaX,posPy[i]-camara.vistaY);				//pinto un numero al lado del punto
+		contexto1.fillText(i,posPx[i]-camara.vistaX,posPy[i]-camara.vistaY);
+		contexto1.fill();
+	}
+	//////////////PROBISIONAL////////////////////
+		var coch = new Image();
+		coch.src = "img/1ARRB.png";
+		contexto1.drawImage(coch,posPx[posPx.length-1]-camara.vistaX,posPy[posPx.length-1]-camara.vistaY,15,15)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +68,7 @@ function creacionClasesPerros(){
 		perro[i].velocidad;
 		perro[i].numeroperros = 10;
 		perro[i].tempx;
-		perro[i].tempy; 
+		perro[i].tempy;
 	}
 }
 function creaPerros(){
@@ -110,7 +103,7 @@ function creaPerros(){
 function muevePerro(){
 	limpiaMeos();
 	for (var i = 0; i<numeroMeos; i++){
-		contextoFinal.drawImage(imagenmeo, perroMeos[i].tempx, perroMeos[i].tempy,5,5);
+		contexto1.drawImage(imagenmeo, perroMeos[i].tempx, perroMeos[i].tempy,5,5);
 	}
  	for (var i = 0; i<numeroperros; i++){
 		perro[i].direccion += (Math.random()-0.5) * 0.5;				// Varío el ángulo aleatoriamente
@@ -125,7 +118,7 @@ function muevePerro(){
 		if (color.data[3] == 0) {										// Si el valor de la transparencia es 0 el perro da la vuelta
 			perro[i].direccion += Math.PI;
 		}
-		contextoFinal.drawImage(imagenperro, perro[i].posx, perro[i].posy,16,16);     		
+		contexto1.drawImage(imagenperro, perro[i].posx, perro[i].posy,16,16);
 	}
 }
 function buscaPerroMeo(_posx, _posy, iperro){
@@ -156,7 +149,7 @@ function buscaPerroMeo(_posx, _posy, iperro){
 		perroMeos[numeroMeos].tempy = newy;
 		perroMeos[numeroMeos].tiempoDeEsteMeo = caducidadDelMeo;
 		perro[iperro].acabademear = true;
-		contextoFinal.drawImage(imagenmeo,newx,newy,5,5);
+		contexto1.drawImage(imagenmeo,newx,newy,5,5);
 		numeroMeos++;
 		caducidadDelMeo++;
 	}
@@ -190,7 +183,7 @@ function generarArboles(){
 		arbol[contador] = new Arbol();
 		arbol[contador].puntoX = pruebax;
 		arbol[contador].puntoY = pruebay;
-		contexto1.drawImage(arbol,arbol[contador].puntoX,arbol[contador].puntoY,tamaño,tamaño); 
+		contexto1.drawImage(arbol,arbol[contador].puntoX,arbol[contador].puntoY,tamaño,tamaño);
  	}
  	lastx = pruebax;
  	lasty = pruebay;
@@ -200,105 +193,74 @@ function generarArboles(){
 ////							Funciones de los pajaros									/////
 ////																						/////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function creacionPajaros(){
-	var Boid = function(x, y, heading, size, energia, speed) {
-
-		this.x = x;
-		this.y = y;
-		this.heading = heading;
-		this.size = size;
-		this.energia = energia;
-		this.volando = true;
-		this.posando = false;
-		this.tiempodescanso = 0;
-		this.colorparada;
-		this.speed = speed;
-
-	};
-
-	for (var i = 0; i < 40; i++)
-		{
-			manada.push(new Boid(Math.random() * 1068, Math.random() * 1068, Math.random() * 360, 10, Math.random()*(1000-100)+100, 2));
-			
-		}
-
-}
 function movimientoPajaros(){
-	for (var i = 0; i < manada.length; i++)
-	{
-		var b = manada[i];
-		if(b.volando){
-			dibpajvolando(b.x, b.y,10, 10, manada[i].heading);
-		}else{
-			dibpajposando(b.x, b.y);
-		}
-
-	clearTimeout(temporizador);
-	temporizador = setTimeout("bucle()", 16);
-
+	//Pajaro Volando
+	for (var i=0; i<15; i++) {
+		pajaros[i].variarAngulo(); //Variamos angulo
+		//Ejecutamos el movimiento del pajaro teniendo en cuenta su energia
+		pajaros[i].movEnerPaj();
+		//Dibujamos los pajaros
+		if (pajaros[i].volando) {pajaros[i].dibpajvolando(pajaros[i].rotZ, imagenpajaroV);}
+		if (pajaros[i].posando) {pajaros[i].dibpajposando();}
 	}
-	Pajaro();
+	// Pajaros Bandada en Formacion
+	// Movimiento y pintado del pajaro lider
+	pajlider.mover();
+	pajlider.dibpajvolando(pajlider.rotZ, imagenpajaro2);
 
-	function dibpajvolando(x, y, width, height, radianes) {
-	// contexto.drawImage(imagenPajaro, x, y, 10, 10);
-	contextoFinal.save();
-	contextoFinal.translate(x+width/2, y+height/2);
-	contextoFinal.rotate(radianes*Math.PI/180);
-	contextoFinal.drawImage(imagenPajaro, -width/2, -height/2);
-	contextoFinal.restore();
+	//Movimiento y pintado de los pajaros seguidores
+	for (var i=0; i<numpajI; i++) {
+		//Movemos y Pintamos formacion izquierda
+		pajarosfori[i].mover();
+		pajarosfori[i].dibpajvolando(pajlider.rotZ, imagenpajaro2);
 	}
-
-	function dibpajposando(x, y) {
-		contextoFinal.drawImage(imagenpajaroP,x, y);
+	for (var i=0; i<numpajD; i++) {
+		//Movemos y pintamos formacion derecha
+		pajarosford[i].mover();
+		pajarosford[i].dibpajvolando(pajlider.rotZ, imagenpajaro2);
 	}
 }
-function drawRotated1(radianes) {
-  //contextoFinal.clearRect(0,0,lienzo1.width,lienzo1.height);
+function creacionPajaros(){
+	// Condiciones iniciales de pajaros
+	for (var i=0; i<100; i++) {
+		pajaros[i] = new Pajaro();
+		pajaros[i].velocidad = Math.random()*(5-3)+3; 		//Velocidad entre 2 y 5
+		pajaros[i].volando = true;							//Los pajaros empiezan moviendose
+		pajaros[i].posando = false;
+		pajaros[i].tiempodescanso = 0;
+		pajaros[i].energia = Math.random()*(300-100)+100;	//Valores entre 300 y 100 de energia inicial
+		pajaros[i].posX = Math.round(Math.random()*lienzoPajaro.width);
+		pajaros[i].posY = Math.round(Math.random()*lienzoPajaro.height);
+		pajaros[i].rotZ = Math.random()*Math.PI*2;
+	}
+	// Condiciones iniciales del pajaro lider y su bandada
+	// Pajaro Lider
+	// El pajaro sale del lado derecho con un angulo entre 30 y -30. Sale de entre 1/1 y 3/4 de la altura del lienzo
+	pajlider = new Pajaro();
+	pajlider.velocidad = Math.random()*(2-1)+1;		//Parte con una velocidad de entre 1 y 2
+	pajlider.posX = 0;
+	pajlider.posY = Math.round(Math.random()*(lienzoPajaro.height*0.75-lienzoPajaro.height*0.25)+lienzoPajaro.height*0.25);
+	pajlider.rotZ = Math.random()*(-Math.PI/3)+Math.PI/6;
 
-  // save the unrotated context of the canvas so we can restore it later
-  // the alternative is to untranslate & unrotate after drawing
-  contextoFinal.save();
-
-  // move to the center of the canvas
-  contextoFinal.translate(imagenPajaro.posX, imagenPajaro.posY);
-
-  // rotate the canvas to the specified degrees
-  contextoFinal.rotate(radianes);
-
-  // draw the image
-  // since the context is rotated, the image will be rotated also
-  contextoFinal.drawImage(imagenPajaro, -imagenPajaro.width / 2, -imagenPajaro.height / 2);
-
-  // we’re done with the rotating so restore the unrotated context
-  contextoFinal.restore();
+	// Pajaros Formacion
+	// Los pajaros que siguen al lider lo hacen formando un angulo (diferente los de izq y der). Tienen misma vel y sentido
+	// Pajaros del flanco izquierdo
+	for (var i = 0; i<numpajI; i++) {
+		pajarosfori[i] = new Pajaro();
+		pajarosfori[i].velocidad = pajlider.velocidad;
+		pajarosfori[i].posX = pajlider.posX - 30*(i+1)*Math.cos(pajlider.rotZ+Math.PI/4);
+		pajarosfori[i].posY = pajlider.posY - 30*(i+1)*Math.sin(pajlider.rotZ+Math.PI/4);
+		pajarosfori[i].rotZ = pajlider.rotZ;
+	}
+	// Pajaros del flanco derecho
+	for (var i = 0; i<numpajD; i++) {
+		pajarosford[i] = new Pajaro();
+		pajarosford[i].velocidad = pajlider.velocidad;
+		pajarosford[i].posX = pajlider.posX - 30*(i+1)*Math.cos(pajlider.rotZ-Math.PI/6);
+		pajarosford[i].posY = pajlider.posY - 30*(i+1)*Math.sin(pajlider.rotZ-Math.PI/6);
+		pajarosford[i].rotZ = pajlider.rotZ;
+	}
 }
-function distanceBetween(a, b)  {
-    var dx = a.x - b.x;
-    var dy = a.y - b.y;
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-
-  function angleBetween(x1, y1, x2, y2)
-  {
-    return Math.atan2(y1 - y2, x1 - x2) * (180.0 / Math.PI);
-  }
-
-  function angleDifference(a1, a2)
-  {
-    return ((((a1 - a2) % 360) + 540) % 360) - 180;
-  }
-
-  function degreesToRadians(degrees){
-    return degrees * (Math.PI / 180);
-  }
-
-  function dir_x(length, angle){
-    return length * Math.cos(degreesToRadians(angle));
-  }
-
-  function dir_y(length, angle){
-    return length * Math.sin(degreesToRadians(angle));
-  }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////																						/////
 ////							Funciones del coche protagonista							/////
@@ -307,7 +269,7 @@ function distanceBetween(a, b)  {
 function actualizarCocheProtagonista() {
 	cocheProtagonista.dibuja();
 	cocheProtagonista.barraCombustible.dibujar();
-	// Se actualizan los valores cuando acelera	
+	// Se actualizan los valores cuando acelera
 	if (cocheProtagonista.acelerando) {
 		cocheProtagonista.acelerar();
 	}
@@ -343,46 +305,46 @@ function actualizarCocheProtagonista() {
 	cocheProtagonista.barraCombustible.actualizarPorcentaje(cocheProtagonista);
 }
 function drawRotated(radianes) {
-	//contextoFinal.clearRect(0,0,lienzo1.width,lienzo1.height);
+	//contexto1.clearRect(0,0,lienzo1.width,lienzo1.height);
 
 	// save the unrotated context of the canvas so we can restore it later
 	// the alternative is to untranslate & unrotate after drawing
-	contextoFinal.save();
+	contexto1.save();
 	// move to the center of the canvas
-	contextoFinal.translate(cocheProtagonista.posX, cocheProtagonista.posY);
+	contexto1.translate(cocheProtagonista.posX - camara.vistaX, cocheProtagonista.posY - camara.vistaY);
 	// rotate the canvas to the specified degrees
-	contextoFinal.rotate(radianes);
+	contexto1.rotate(radianes);
 	// draw the image
 	// since the context is rotated, the image will be rotated also
-	contextoFinal.drawImage(imagenCoche, -imagenCoche.width / 2, -imagenCoche.height / 2);
+	contexto1.drawImage(imagenCoche, -imagenCoche.width / 2, -imagenCoche.height / 2);
 	// we’re done with the rotating so restore the unrotated context
-	contextoFinal.restore();
+	contexto1.restore();
 }
 function condicionesInicialesCocheProtegonista(){
 	// Condiciones iniciales del coche protagonista
 	cocheProtagonista = new CocheProtagonista();
-	cocheProtagonista.posX									= 350;
-	cocheProtagonista.posY									= 1023;
+	cocheProtagonista.posX									= 550;
+	cocheProtagonista.posY									= 1880;
 	cocheProtagonista.rotZ									= 0;
-	
+
 	cocheProtagonista.velocidad								= 0;
 	cocheProtagonista.velocidadMax							= 4;
 	cocheProtagonista.velocidadNitro						= 8;
 	cocheProtagonista.velocidadMaxAtras						= 1;
-	
+
 	cocheProtagonista.combustibleCapacidad					= 800;
 	cocheProtagonista.combustible							= cocheProtagonista.combustibleCapacidad; // Se empieza con el depósito lleno
 	cocheProtagonista.consumoMin							= 0.05;
 	cocheProtagonista.consumoMax							= 0.5;
 	cocheProtagonista.consumoNitro							= 2;
-	
+
 	cocheProtagonista.aceleracion							= 0.05;
 	cocheProtagonista.aceleracionAtras						= 0.05;
 	cocheProtagonista.aceleracionNitro						= 0.5;
 	cocheProtagonista.frenada								= 0.2;
 	cocheProtagonista.rozamiento							= 0.03;
 	cocheProtagonista.ratioGiro								= 0.1;
-	
+
 	cocheProtagonista.barraCombustible						= new InterfazBarraCombustible();
 	cocheProtagonista.barraCombustible.posX 				= 0;
 	cocheProtagonista.barraCombustible.posY 				= 10;
@@ -392,7 +354,7 @@ function condicionesInicialesCocheProtegonista(){
 	cocheProtagonista.barraCombustible.porcentaje			= cocheProtagonista.barraCombustible.porcentajeInicial;
 }
 function eventosCocheProtagonista() {
-	// Escribir el código que se encarga de la pulsación de las teclas	
+	// Escribir el código que se encarga de la pulsación de las teclas
 	$(document).keydown(function(event) {
 		if (event.which == 87) {
 			// Acelera W
@@ -411,16 +373,16 @@ function eventosCocheProtagonista() {
 			cocheProtagonista.derecha = 1;
 		}
 		if (event.which == 32) {
-			// Nitro			
+			// Nitro
 			cocheProtagonista.activarNitro(true);
 		}
 	});
-	
+
 	$(document).keyup(function(event) {
 		if (event.which == 87) {
 			cocheProtagonista.acelerando = false;
 		}
-		
+
 		if (event.which == 83) {
 			cocheProtagonista.frenando = false;
 		}
@@ -428,10 +390,10 @@ function eventosCocheProtagonista() {
 		if (event.which == 65) {
 			cocheProtagonista.izquierda = false;
 		}
-		
+
 		if (event.which == 68) {
 			cocheProtagonista.derecha = false;
-		}		
+		}
 		if (event.which == 32) {
 			// Nitro
 			cocheProtagonista.activarNitro(false);
@@ -443,20 +405,25 @@ function dibujarBarraCombustible() {
 	var anchuraRellenada = Math.ceil((cocheProtagonista.barraCombustible.porcentaje * cocheProtagonista.barraCombustible.anchura) / 100);
 	// Pinto el contorno y el fondo de la barra de combustible en negro
 	// La posición de la barra es relativa a la del cocheProtagonista
-	contextoFinal.fillStyle = "#000000";
-	contextoFinal.fillRect(cocheProtagonista.posX - 16, cocheProtagonista.posY - 21, cocheProtagonista.barraCombustible.anchura + 2, cocheProtagonista.barraCombustible.altura + 2);
+	contexto1.fillStyle = "#000000";
+	contexto1.fillRect(cocheProtagonista.posX - 16 - camara.vistaX, cocheProtagonista.posY - 21 - camara.vistaY, cocheProtagonista.barraCombustible.anchura + 2, cocheProtagonista.barraCombustible.altura + 2);
 	if (cocheProtagonista.barraCombustible.porcentaje < 33) {			// Si el combustible es menor del 33%
-		contextoFinal.fillStyle = "#FF0000";							// Pinto con el color rojo (aviso de que se acaba el combustible)
+		contexto1.fillStyle = "#FF0000";							// Pinto con el color rojo (aviso de que se acaba el combustible)
 	} else {															// Si el combustible es mayor o superior al 33%
-		contextoFinal.fillStyle = "#1F9639";							// Pinto con el color verde
+		contexto1.fillStyle = "#1F9639";							// Pinto con el color verde
 	}
 	// Pinto el relleno de la barra de combustible
 	// La posición de la barra es relativa a la del cocheProtagonista
-	contextoFinal.fillRect(cocheProtagonista.posX - 15, cocheProtagonista.posY - 20, anchuraRellenada, cocheProtagonista.barraCombustible.altura);
+	contexto1.fillRect(cocheProtagonista.posX - 15- camara.vistaX, cocheProtagonista.posY - 20 - camara.vistaY, anchuraRellenada, cocheProtagonista.barraCombustible.altura);
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////																						/////
-////				Funciones de los peces. Están en funcionespez.js						/////
+////						 	Funciones de la cámara										/////
 ////																						/////
 /////////////////////////////////////////////////////////////////////////////////////////////////
+function situarCamara() {
+	camara = new Camara(0, 0, lienzo1.width, lienzo1.height, anchuraMapa, alturaMapa);
+	camara.seguirObjeto(cocheProtagonista, lienzo1.width / 2, lienzo1.height / 2);
+}

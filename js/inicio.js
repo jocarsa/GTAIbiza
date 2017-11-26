@@ -5,11 +5,13 @@ function inicio() {
 		
 		$("#botonEmpezarJuego").mousedown(function(event) {
 			//Si se pulsa el boton izquierdo del raton
-			if (event.which == 1 && puedesIniciar == 6) {
+			if (event.which == 1 && puedesIniciar == 3) {
 				//Oculta el botonEmpezarJuego 
 				$("#interfazUsuario").hide(); 
 				condicionesInicialesCocheProtegonista();
-				valoresInicialesPez();
+				situarCamara();
+				mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
+				mapaCoche.dibujar(contextoCoche, camara.vistaX, camara.vistaY);
 				//Ejecutamos bucle()
 				bucle();
 			}
@@ -36,21 +38,18 @@ function inicio() {
 				//Oculta el botonEmpezarJuego 
 				$("#gameOver").hide(); 
 				condicionesInicialesCocheProtegonista();
-				valoresInicialesPez();
+				situarCamara();
+				mapaBonito.dibujar(contexto1, camara.vistaX, camara.vistaY);
+				mapaCoche.dibujar(contextoCoche, camara.vistaX, camara.vistaY);
 				//Ejecutamos bucle()
 				gameOver = false;
 				bucle();
 			}
 		});
 		//---------------------------------------+ MAPAS
-		dibujaMapaBonito();
-		dibujaMapaCoche();
 		dibujaMapaPerro();
 		dibujaMapaPlanta();
 		dibujaMapaPajaro();
-		dibujaMapaPeces();
-		
-		//---------------------------------------+ 
 	
 		//---------------------------------------+ COCHE PROTAGONISTA
 		eventosCocheProtagonista();
@@ -69,9 +68,7 @@ function inicio() {
 		//---------------------------------------+
 		
 		//---------------------------------------+ PAJAROS
-		creacionPajaros();		
-		//---------------------------------------+ PECES
-		eventosPez();
+		creacionPajaros();
 		//---------------------------------------+
 	});
 }
